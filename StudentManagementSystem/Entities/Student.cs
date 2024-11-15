@@ -4,7 +4,6 @@ namespace StudentManagementSystem.Entities
 {
     public class Student
     {
-        internal object StudentID;
 
         public Guid ID { get; set; }
         public string Name { get; set; }

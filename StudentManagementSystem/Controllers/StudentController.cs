@@ -35,14 +35,14 @@ namespace StudentManagementSystem.Controllers
         public async Task<ActionResult> AddStudent(Student student)
         {
             await _studentService.AddStudentAsync(student);
-            return CreatedAtAction(nameof(GetStudentById), new { id = student.StudentID }, student);
+            return CreatedAtAction(nameof(GetStudentById), new { id = student.ID }, student);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateStudent(Guid id, Student student, bool x)
+        public async Task<ActionResult> UpdateStudent(Guid id, Student student)
         {
-            if (x)
-                return BadRequest();
+            if (id != student.ID)
+                return BadRequest("Student ID does not match");
 
             await _studentService.UpdateStudentAsync(student);
             return NoContent();
