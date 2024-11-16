@@ -43,7 +43,7 @@ namespace StudentManagementSystem.Repository
 
         public async Task<Teacher> UpdateTeacher(Guid id, TeacherRequest teacherRequest)
         {
-            var teacherData =  await _appDbContext.Teachers.FindAsync(id);
+            var teacherData = await _appDbContext.Teachers.FindAsync(id);
             if (teacherData == null)
             {
                 throw new Exception("ID is Not Found");
@@ -72,6 +72,20 @@ namespace StudentManagementSystem.Repository
             var teachers = await _appDbContext.Teachers.Where(t => t.SubjectID == subjectId).ToListAsync();
             return teachers;
         }
+
+        public async Task<Teacher> DeleteTeacher(Guid id)
+        {
+            var teacherData = await _appDbContext.Teachers.FindAsync(id);
+            if (teacherData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
+
+            _appDbContext.Remove(teacherData);
+            _appDbContext.SaveChanges();
+            return teacherData;
+        }
+
 
     }
 }

@@ -142,6 +142,22 @@ namespace StudentManagementSystem.Services
             }
             return teacherList;
         }
+
+
+
+        public async Task<TeacherResponse> DeleteTeacher(Guid id)
+        {
+            var teacherData = await _teacherRepository.DeleteTeacher(id);
+
+            var teacherResponse = new TeacherResponse();
+            teacherResponse.ID = teacherData.ID;
+            teacherResponse.Name = teacherData.Name;
+            teacherResponse.Email = teacherData.Email;
+            teacherResponse.Phone = teacherData.Phone;
+            teacherResponse.SubjectID = teacherData.SubjectID;
+
+            return teacherResponse;
+        }
     }
 }
 

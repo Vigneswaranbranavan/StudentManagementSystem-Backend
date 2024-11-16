@@ -11,5 +11,6 @@ namespace StudentManagementSystem.IRepository
         Task<Teacher> UpdateTeacher(Guid id, TeacherRequest teacherRequest);
         Task<List<Timetable>> GetTimetableByTeacherId(Guid teacherId);
         Task<List<Teacher>> GetTeachersBySubjectId(Guid subjectId);
+        Task<Teacher> DeleteTeacher(Guid id);
     }
 }
