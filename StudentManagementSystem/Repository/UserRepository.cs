@@ -6,53 +6,53 @@ namespace StudentManagementSystem.Repository
 {
     public class UserRepository: IUserRepository
     {
-        private readonly AppDbContext appDbContext;
+        private readonly AppDbContext _appDbContext;
         public UserRepository(AppDbContext appDbContext)
         {
-            this.appDbContext = appDbContext;
+            _appDbContext = appDbContext;
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await appDbContext.Users.ToListAsync();
+            return await _appDbContext.Users.ToListAsync();
         }
 
         public async Task<User> GetUserByIdAsync(Guid id)
         {
-            return await appDbContext.Users.FindAsync(id);
+            return await _appDbContext.Users.FindAsync(id);
         }
 
         public async Task AddUserAsync(User user)
         {
-            await appDbContext.Users.AddAsync(user);
-            await appDbContext.SaveChangesAsync();
+            await _appDbContext.Users.AddAsync(user);
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task UpdateUserAsync(User user)
         {
-            appDbContext.Users.Update(user);
-            await appDbContext.SaveChangesAsync();
+            _appDbContext.Users.Update(user);
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteUserAsync(Guid id)
         {
-            var user = await appDbContext.Users.FindAsync(id);
+            var user = await _appDbContext.Users.FindAsync(id);
             if (user != null)
             {
-                appDbContext.Users.Remove(user);
-                await appDbContext.SaveChangesAsync();
+                _appDbContext.Users.Remove(user);
+                await _appDbContext.SaveChangesAsync();
             }
         }
 
         public async Task<Role> GetRoleByNameAsync(string roleName)
         {
-            return await appDbContext.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
+            return await  _appDbContext.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
         }
 
         public async Task AddUserRoleAsync(UserRole userRole)
         {
-            await appDbContext.UserRoles.AddAsync(userRole);
-            await appDbContext.SaveChangesAsync();
+            await _appDbContext.UserRoles.AddAsync(userRole);
+            await _appDbContext.SaveChangesAsync();
         }
 
     }

@@ -27,18 +27,17 @@ namespace StudentManagementSystem
             base.OnModelCreating(modelBuilder);
 
 
-            modelBuilder.Entity<UserRole>()
-                .HasKey(ur => new { ur.UserID, ur.RoleID });
+            //modelBuilder.Entity<UserRole>()
+            //    .HasKey(ur => new { ur.UserID, ur.RoleID });
 
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.User)
-                .WithMany(u => u.UserRoles)
-                .HasForeignKey(ur => ur.UserID);
+            //modelBuilder.Entity<UserRole>()
+            //    .HasOne(ur => ur.User)
+            //    .HasForeignKey(ur => ur.UserID);
 
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.Role)
-                .WithMany(r => r.UserRoles)
-                .HasForeignKey(ur => ur.RoleID);
+            //modelBuilder.Entity<UserRole>()
+            //    .HasOne(ur => ur.Role)
+            //    .WithMany(r => r.UserRoles)
+            //    .HasForeignKey(ur => ur.RoleID);
 
 
         }
