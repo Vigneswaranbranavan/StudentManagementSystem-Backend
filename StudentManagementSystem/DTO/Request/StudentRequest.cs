@@ -8,7 +8,7 @@ namespace StudentManagementSystem.DTO.Request
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime EnrollmentDate { get; set; }
-        public int ClassID { get; set; }
+        public Guid ClassID { get; set; }
 
     }
 }
