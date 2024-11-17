@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentManagementSystem.DTO.Request;
+using StudentManagementSystem.DTO.Response;
 using StudentManagementSystem.Entities;
 using StudentManagementSystem.IServices;
 
@@ -17,14 +19,14 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Subject>>> GetAllSubjects()
+        public async Task<ActionResult<IEnumerable<SubjectResponse>>> GetAllSubjects()
         {
             var subjects = await _subjectService.GetAllSubjectsAsync();
             return Ok(subjects);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Subject>> GetSubjectById(Guid id)
+        public async Task<ActionResult<SubjectResponse>> GetSubjectById(Guid id)
         {
             var subject = await _subjectService.GetSubjectByIdAsync(id);
             if (subject == null)
@@ -33,19 +35,17 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddSubject(Subject subject)
+        public async Task<ActionResult> AddSubject(SubjectRequest subjectRequest)
         {
-            await _subjectService.AddSubjectAsync(subject);
-            return CreatedAtAction(nameof(GetSubjectById), new { id = subject.ID }, subject);
+           var createSubject = await _subjectService.AddSubjectAsync(subjectRequest);
+            return CreatedAtAction(nameof(GetSubjectById), new { id = createSubject.ID }, createSubject);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateSubject(Guid id, Subject subject)
+        public async Task<ActionResult> UpdateSubject(Guid id, SubjectRequest subjectRequest)
         {
-            if (id != subject.ID)
-                return BadRequest("Subject ID did't match.");
-
-            await _subjectService.UpdateSubjectAsync(subject);
+         
+            await _subjectService.UpdateSubjectAsync(id,subjectRequest);
             return NoContent();
         }
 
