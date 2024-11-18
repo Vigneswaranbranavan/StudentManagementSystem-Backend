@@ -43,6 +43,12 @@ namespace StudentManagementSystem
             builder.Services.AddScoped<ITimeTableRepository, TimeTableRepository>();
             builder.Services.AddScoped<ITimeTableService, TimeTableService>();
 
+            builder.Services.AddScoped<IClassRepository, ClassRepository>();
+            builder.Services.AddScoped<IClassService, ClassService>();
+
+            builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+
 
             //builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
