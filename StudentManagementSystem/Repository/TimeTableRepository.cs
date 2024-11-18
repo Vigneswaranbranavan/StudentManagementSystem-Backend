@@ -85,12 +85,20 @@ namespace StudentManagementSystem.Repository
         public async Task<List<Timetable>> GetTimetablesByTeacherId(Guid teacherId)
         {
             var timetableData = await _appDbContext.Timetables.Where(t => t.TeacherID == teacherId).ToListAsync();
+            if (timetableData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
             return timetableData;
         }
 
         public async Task<List<Timetable>> GetTimetablesByClassId(Guid classId)
         {
             var timetableData = await _appDbContext.Timetables.Where(tt => tt.ClassID == classId).ToListAsync();
+            if (timetableData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
             return timetableData;
         }
 
@@ -98,6 +106,10 @@ namespace StudentManagementSystem.Repository
         public async Task<List<Timetable>> GetTimetablesBySubjectId(Guid subjectId)
         {
             var timetableData = await _appDbContext.Timetables.Where(tt => tt.SubjectID == subjectId).ToListAsync();
+            if (timetableData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
             return timetableData;
         }
     }
