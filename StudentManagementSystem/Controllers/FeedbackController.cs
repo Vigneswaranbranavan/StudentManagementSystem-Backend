@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using StudentManagementSystem.DTO.Request;
-using StudentManagementSystem.Entities;
 using StudentManagementSystem.IServices;
 using StudentManagementSystem.Services;
 
@@ -10,20 +9,19 @@ namespace StudentManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NotificationController : ControllerBase
+    public class FeedbackController : ControllerBase
     {
-        private readonly INotificationService _notificationService;
-        public NotificationController(INotificationService notificationService)
+        private readonly IFeedbackService _feedbackService;
+        public FeedbackController(IFeedbackService feedbackService)
         {
-            _notificationService = notificationService;
+            _feedbackService = feedbackService;
         }
-
-        [HttpPost("Notification")]
-        public async Task<IActionResult> AddNotification(NotificationRequest request)
+        [HttpPost("Feedback")]
+        public async Task<IActionResult> AddFeedback(FeedbackRequest request)
         {
             try
             {
-                var ReturnData = await _notificationService.AddNotification(request);
+                var ReturnData = await _feedbackService.AddFeedback(request);
                 return Ok(ReturnData);
             }
             catch (SqlException ex)
@@ -41,12 +39,12 @@ namespace StudentManagementSystem.Controllers
 
         }
 
-        [HttpGet("Notification")]
-        public async Task<IActionResult> Getnotifications()
+        [HttpGet("Feedback")]
+        public async Task<IActionResult> GetFeedbacks()
         {
             try
             {
-                var data = await _notificationService.Getnotifications();
+                var data = await _feedbackService.GetFeedbacks();
                 return Ok(data);
             }
             catch (SqlException ex)
@@ -65,12 +63,12 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        [HttpGet("NotificationById")]
-        public async Task<IActionResult> GetNotificationById(Guid id)
+        [HttpGet("FeedbackById")]
+        public async Task<IActionResult> GetFeedbackById(Guid id)
         {
             try
             {
-                var data = await _notificationService.GetNotificationById(id);
+                var data = await _feedbackService.GetFeedbackById(id);
                 return Ok(data);
             }
             catch (SqlException ex)
@@ -88,12 +86,12 @@ namespace StudentManagementSystem.Controllers
 
         }
 
-        [HttpPut("Notification")]
-        public async Task<IActionResult> UpdateNotification(Guid Id, NotificationRequest request)
+        [HttpPut("Feedback")]
+        public async Task<IActionResult> UpdateFeedback(Guid Id, FeedbackRequest request)
         {
             try
             {
-                var data = await _notificationService.UpdateNotification(Id, request);
+                var data = await _feedbackService.UpdateFeedback(Id, request);
                 return Ok(data);
             }
             catch (SqlException ex)
@@ -109,12 +107,12 @@ namespace StudentManagementSystem.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("Notification")]
-        public async Task<IActionResult> DeleteNotification(Guid id)
+        [HttpDelete("Feedback")]
+        public async Task<IActionResult> DeleteFeedback(Guid id)
         {
             try
             {
-                var data = await _notificationService.DeleteNotification(id);
+                var data = await _feedbackService.DeleteFeedback(id);
                 return Ok(data);
             }
             catch (SqlException ex)
@@ -130,6 +128,5 @@ namespace StudentManagementSystem.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }
