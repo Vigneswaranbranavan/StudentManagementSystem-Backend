@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentManagementSystem.DTO.Request;
+using StudentManagementSystem.DTO.Response;
 using StudentManagementSystem.Entities;
 using StudentManagementSystem.IServices;
+using StudentManagementSystem.Repository;
 
 namespace StudentManagementSystem.Controllers
 {
@@ -16,14 +19,14 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAllStudents()
+        public async Task<ActionResult<IEnumerable<StudentResponce>>> GetAllStudents()
         {
             var students = await _studentService.GetAllStudentsAsync();
             return Ok(students);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudentById(Guid id)
+        public async Task<ActionResult<StudentRepository>> GetStudentById(Guid id)
         {
             var student = await _studentService.GetStudentByIdAsync(id);
             if (student == null)
@@ -32,19 +35,16 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddStudent(Student student)
+        public async Task<ActionResult> AddStudent(StudentRequest studentRequest)
         {
-            await _studentService.AddStudentAsync(student);
-            return CreatedAtAction(nameof(GetStudentById), new { id = student.ID }, student);
+            var createStudent = await _studentService.AddStudentAsync(studentRequest);
+            return CreatedAtAction(nameof(GetStudentById), new { id = createStudent.ID }, createStudent);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateStudent(Guid id, Student student)
+        public async Task<ActionResult> UpdateStudent(Guid id, StudentRequest studentRequest)
         {
-            if (id != student.ID)
-                return BadRequest("Student ID does not match");
-
-            await _studentService.UpdateStudentAsync(student);
+            await _studentService.UpdateStudentAsync(id, studentRequest);
             return NoContent();
         }
 

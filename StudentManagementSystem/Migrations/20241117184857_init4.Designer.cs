@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem;
 
@@ -11,9 +12,11 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241117184857_init4")]
+    partial class init4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,18 +155,6 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("f8ff2329-8724-47fc-9f8f-f4dbd1858514"),
-                            RoleName = "teacher"
-                        },
-                        new
-                        {
-                            ID = new Guid("ae1d56c4-3a2a-435d-9b4e-644a6a490eae"),
-                            RoleName = "student"
-                        });
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Student", b =>
