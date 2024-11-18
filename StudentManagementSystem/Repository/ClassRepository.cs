@@ -72,12 +72,20 @@ namespace StudentManagementSystem.Repository
         public async Task<List<Student>> GetStudentsByClassId(Guid classId)
         {
             var classData = await _appDbContext.Students.Where(s => s.ClassID == classId).ToListAsync();
+            if (classData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
             return classData;
         }
 
         public async Task<List<Timetable>> GetTimetablesByClassId(Guid classId)
         {
             var classData = await _appDbContext.Timetables.Where(t => t.ClassID == classId).ToListAsync();
+            if (classData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
             return classData;
         }
 

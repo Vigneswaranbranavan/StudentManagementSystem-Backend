@@ -2,6 +2,7 @@
 using StudentManagementSystem.DTO.Request;
 using StudentManagementSystem.Entities;
 using StudentManagementSystem.IRepository;
+using System.Xml;
 
 namespace StudentManagementSystem.Repository
 {
@@ -63,6 +64,10 @@ namespace StudentManagementSystem.Repository
         public async Task<List<Timetable>> GetTimetableByTeacherId(Guid teacherId)
         {
             var timetable = await _appDbContext.Timetables.Where(t => t.TeacherID == teacherId).Include(t => t.Subject).Include(t => t.Class).ToListAsync();
+            if (timetable == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
             return timetable;
         }
 
@@ -70,6 +75,10 @@ namespace StudentManagementSystem.Repository
         public async Task<List<Teacher>> GetTeachersBySubjectId(Guid subjectId)
         {
             var teachers = await _appDbContext.Teachers.Where(t => t.SubjectID == subjectId).ToListAsync();
+            if (teachers == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
             return teachers;
         }
 
