@@ -1,57 +1,74 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudentManagementSystem.DTO.Request;
 using StudentManagementSystem.Entities;
 using StudentManagementSystem.IRepository;
 
 namespace StudentManagementSystem.Repository
 {
-    public class NotificationRepository: INotificationRepository
+    public class NotificationRepository : INotificationRepository
     {
         private readonly AppDbContext _appDbContext;
-
         public NotificationRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
-
-
-        public async Task<IEnumerable<Notification>> GetAllNotificationsAsync()
-        {
-            return await _appDbContext.Notifications.ToListAsync();
-        }
-
-        public async Task<Notification> GetNotificationByIdAsync(Guid id)
-        {
-            return await _appDbContext.Notifications.FirstOrDefaultAsync(n => n.ID == id);
-        }
-
-        public async Task<IEnumerable<Notification>> GetNotificationsByUserIdAsync(Guid userId)
-        {
-            return await _appDbContext.Notifications
-                .Where(n => n.UserID == userId)
-                .ToListAsync();
-        }
-
-        public async Task AddNotificationAsync(Notification notification)
+        public async Task<Notification> AddNotification(Notification notification)
         {
             await _appDbContext.Notifications.AddAsync(notification);
             await _appDbContext.SaveChangesAsync();
+            return notification;
         }
 
-        public async Task UpdateNotificationAsync(Notification notification)
+
+        public async Task<List<Notification>> Getnotifications()
         {
-            _appDbContext.Notifications.Update(notification);
-            await _appDbContext.SaveChangesAsync();
+            var notificationData = await _appDbContext.Notifications.ToListAsync();
+            return notificationData;
+
         }
 
-        public async Task DeleteNotificationAsync(Guid id)
+        public async Task<Notification> GetNotificationById(Guid id)
         {
-            var notification = await _appDbContext.Notifications
-                .FirstOrDefaultAsync(n => n.ID == id);
-            if (notification != null)
+            var notificationData = await _appDbContext.Notifications.FindAsync(id);
+            if (notificationData == null)
             {
-                _appDbContext.Notifications.Remove(notification);
-                await _appDbContext.SaveChangesAsync();
+                throw new Exception("ID is Not Found");
             }
+
+            return notificationData;
+
+        }
+
+        public async Task<Notification> UpdateNotification(Guid id, NotificationRequest request)
+        {
+            var notificationData = await _appDbContext.Notifications.FindAsync(id);
+            if (notificationData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
+
+            notificationData.UserID = request.UserID;
+            notificationData.NotificationType = request.NotificationType;
+            notificationData.Message = request.Message;
+            notificationData.Date = request.Date;
+
+
+
+            _appDbContext.SaveChanges();
+            return notificationData;
+        }
+
+        public async Task<Notification> DeleteNotification(Guid id)
+        {
+            var notificationData = await _appDbContext.Notifications.FindAsync(id);
+            if (notificationData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
+
+            _appDbContext.Remove(notificationData);
+            _appDbContext.SaveChanges();
+            return notificationData;
         }
     }
 }
