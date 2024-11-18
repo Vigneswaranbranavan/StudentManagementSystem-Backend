@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem;
 
@@ -11,9 +12,11 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241117081552_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,18 +155,6 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("f8ff2329-8724-47fc-9f8f-f4dbd1858514"),
-                            RoleName = "teacher"
-                        },
-                        new
-                        {
-                            ID = new Guid("ae1d56c4-3a2a-435d-9b4e-644a6a490eae"),
-                            RoleName = "student"
-                        });
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Student", b =>
@@ -292,36 +283,38 @@ namespace StudentManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("RoleID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("RoleID");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.UserRole", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RoleID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid>("ID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ID");
+                    b.HasKey("UserID", "RoleID");
 
                     b.HasIndex("RoleID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("UserRoles");
                 });
@@ -348,7 +341,7 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Entities.Feedback", b =>
                 {
                     b.HasOne("StudentManagementSystem.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Feedbacks")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -359,7 +352,7 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Entities.Notification", b =>
                 {
                     b.HasOne("StudentManagementSystem.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Notifications")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -370,7 +363,7 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Entities.OTP", b =>
                 {
                     b.HasOne("StudentManagementSystem.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("OTPs")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -427,6 +420,17 @@ namespace StudentManagementSystem.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("StudentManagementSystem.Entities.User", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("StudentManagementSystem.Entities.UserRole", b =>
                 {
                     b.HasOne("StudentManagementSystem.Entities.Role", "Role")
@@ -436,7 +440,7 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("StudentManagementSystem.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -473,6 +477,17 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Entities.Teacher", b =>
                 {
                     b.Navigation("Timetables");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Entities.User", b =>
+                {
+                    b.Navigation("Feedbacks");
+
+                    b.Navigation("Notifications");
+
+                    b.Navigation("OTPs");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

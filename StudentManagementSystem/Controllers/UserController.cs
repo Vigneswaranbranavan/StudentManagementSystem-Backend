@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentManagementSystem.DTO.Request;
+using StudentManagementSystem.DTO.Response;
 using StudentManagementSystem.Entities;
 using StudentManagementSystem.IServices;
 
@@ -16,14 +18,14 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserResponse>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(Guid id)
+        public async Task<ActionResult<UserResponse>> GetUserById(Guid id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
@@ -32,19 +34,17 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddUser(User user, string roleName)
+        public async Task<ActionResult> AddUser(UserRequest userRequest, string roleName)
         {
-            await _userService.AddUserAsync(user, roleName);
-            return CreatedAtAction(nameof(GetUserById), new { id = user.ID }, user);
+           var createUser = await _userService.AddUserAsync(userRequest, roleName);
+            return CreatedAtAction(nameof(GetUserById), new { id = createUser.ID }, createUser);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser(Guid id, User user)
+        public async Task<ActionResult> UpdateUser(Guid id, UserRequest userRequest)
         {
-            if (id != user.ID)
-                return BadRequest("User ID does not match.");
-
-            await _userService.UpdateUserAsync(user);
+           
+            await _userService.UpdateUserAsync(id,userRequest);
             return NoContent();
         }
 

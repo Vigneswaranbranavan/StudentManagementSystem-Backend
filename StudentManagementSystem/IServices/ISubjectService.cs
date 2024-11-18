@@ -1,13 +1,16 @@
-﻿using StudentManagementSystem.Entities;
+﻿using StudentManagementSystem.DTO.Request;
+using StudentManagementSystem.DTO.Response;
+using StudentManagementSystem.Entities;
 
 namespace StudentManagementSystem.IServices
 {
     public interface ISubjectService
     {
-        Task<IEnumerable<Subject>> GetAllSubjectsAsync();
-        Task<Subject> GetSubjectByIdAsync(Guid id);
-        Task AddSubjectAsync(Subject subject);
-        Task UpdateSubjectAsync(Subject subject);
+        Task<IEnumerable<SubjectResponse>> GetAllSubjectsAsync();
+        Task<SubjectResponse> GetSubjectByIdAsync(Guid id);
+        Task UpdateSubjectAsync(Guid id, SubjectRequest subjectRequest);
+        Task<SubjectResponse> AddSubjectAsync(SubjectRequest subjectRequest);
         Task DeleteSubjectAsync(Guid id);
     }
+        
 }
