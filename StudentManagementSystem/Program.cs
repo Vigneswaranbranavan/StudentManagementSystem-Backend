@@ -43,11 +43,18 @@ namespace StudentManagementSystem
             builder.Services.AddScoped<ITimeTableRepository, TimeTableRepository>();
             builder.Services.AddScoped<ITimeTableService, TimeTableService>();
 
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+
+            builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+
             builder.Services.AddScoped<IClassRepository, ClassRepository>();
             builder.Services.AddScoped<IClassService, ClassService>();
 
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+
 
 
             //builder.Services.AddControllers();
