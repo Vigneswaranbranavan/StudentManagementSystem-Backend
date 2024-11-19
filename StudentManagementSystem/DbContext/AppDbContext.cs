@@ -7,6 +7,7 @@ namespace StudentManagementSystem
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         { }
 
+        public DbSet<Staff> Staff { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Subject> Subjects { get; set; }
@@ -27,6 +28,8 @@ namespace StudentManagementSystem
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Role>().HasData(
+                new Role { ID = Guid.NewGuid(), RoleName = "administrator"},
+                new Role { ID = Guid.NewGuid(), RoleName = "staff" },
                 new Role { ID = Guid.NewGuid(), RoleName = "teacher"},
                 new Role { ID = Guid.NewGuid(), RoleName = "student"}
                 );
@@ -36,6 +39,7 @@ namespace StudentManagementSystem
 
             //modelBuilder.Entity<UserRole>()
             //    .HasOne(ur => ur.User)
+            //    .WithMany(u => u.UserRoles)
             //    .HasForeignKey(ur => ur.UserID);
 
             //modelBuilder.Entity<UserRole>()
