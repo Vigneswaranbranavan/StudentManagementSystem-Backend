@@ -56,7 +56,6 @@ namespace StudentManagementSystem.Services
                Password = userRequest.Password,
             };
 
-            //Add User to Repository:
             await _userRepository.AddUserAsync(user);
 
             //Create UserRole Entity:
@@ -66,7 +65,6 @@ namespace StudentManagementSystem.Services
                 RoleID = role.ID,
             };
 
-            //Add UserRole to Repository:
             await _userRepository.AddUserRoleAsync(userRole);
 
             //Return User Response:

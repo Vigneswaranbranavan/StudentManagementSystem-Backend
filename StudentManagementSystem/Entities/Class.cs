@@ -7,5 +7,6 @@
         public int GradeLevel { get; set; }
         public ICollection<Student> Students { get; set; } = new List<Student>();
         public ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
+        public ICollection<Attendance> Attendances { get; set; }= new List<Attendance>();
     }
 }
