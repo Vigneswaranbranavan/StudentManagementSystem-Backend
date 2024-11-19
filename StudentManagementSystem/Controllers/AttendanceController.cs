@@ -108,6 +108,8 @@ namespace StudentManagementSystem.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
         [HttpDelete("Attendance")]
         public async Task<IActionResult> DeleteAttendance(Guid id)
         {
