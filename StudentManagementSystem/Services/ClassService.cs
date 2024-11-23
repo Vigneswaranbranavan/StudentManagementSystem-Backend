@@ -116,7 +116,6 @@ namespace StudentManagementSystem.Services
                 {
                     ID = item.ID,
                     Name = item.Name,
-                    Email = item.Email,
                     Phone = item.Phone,
                     EnrollmentDate = item.EnrollmentDate,
                     ClassID = item.ClassID,
@@ -145,7 +144,6 @@ namespace StudentManagementSystem.Services
                 timetableResponse.Date = item.Date;
                 timetableResponse.StartTime = item.StartTime;
                 timetableResponse.EndTime = item.EndTime;
-                timetableResponse.Room = item.Room;
 
                 timetableResList.Add(timetableResponse);
 

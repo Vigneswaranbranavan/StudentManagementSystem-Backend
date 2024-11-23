@@ -27,8 +27,7 @@ namespace StudentManagementSystem.Services
                 ClassID = timeTableRequest.ClassID,
                 Date = timeTableRequest.Date,
                 StartTime = timeTableRequest.StartTime,
-                EndTime = timeTableRequest.EndTime,
-                Room = timeTableRequest.Room
+                EndTime = timeTableRequest.EndTime
             };
 
 
@@ -42,8 +41,7 @@ namespace StudentManagementSystem.Services
                 ClassID = timetableData.ClassID,
                 Date = timetableData.Date,
                 StartTime = timetableData.StartTime,
-                EndTime = timetableData.EndTime,
-                Room = timetableData.Room
+                EndTime = timetableData.EndTime
 
             };
 
@@ -69,7 +67,6 @@ namespace StudentManagementSystem.Services
                     Date = item.Date,
                     StartTime = item.StartTime,
                     EndTime = item.EndTime,
-                    Room = item.Room
 
                 };
 
@@ -93,7 +90,6 @@ namespace StudentManagementSystem.Services
                 Date = timetableData.Date,
                 StartTime = timetableData.StartTime,
                 EndTime = timetableData.EndTime,
-                Room = timetableData.Room
 
             };
 
@@ -114,7 +110,6 @@ namespace StudentManagementSystem.Services
                 Date = timetableData.Date,
                 StartTime = timetableData.StartTime,
                 EndTime = timetableData.EndTime,
-                Room = timetableData.Room
 
             };
 
@@ -135,7 +130,6 @@ namespace StudentManagementSystem.Services
                 Date = timetableData.Date,
                 StartTime = timetableData.StartTime,
                 EndTime = timetableData.EndTime,
-                Room = timetableData.Room
 
             };
 
@@ -161,7 +155,6 @@ namespace StudentManagementSystem.Services
                     Date = item.Date,
                     StartTime = item.StartTime,
                     EndTime = item.EndTime,
-                    Room = item.Room
 
                 };
 
@@ -192,7 +185,6 @@ namespace StudentManagementSystem.Services
                     Date = item.Date,
                     StartTime = item.StartTime,
                     EndTime = item.EndTime,
-                    Room = item.Room
 
                 };
 
@@ -223,7 +215,6 @@ namespace StudentManagementSystem.Services
                     Date = item.Date,
                     StartTime = item.StartTime,
                     EndTime = item.EndTime,
-                    Room = item.Room
 
                 };
 

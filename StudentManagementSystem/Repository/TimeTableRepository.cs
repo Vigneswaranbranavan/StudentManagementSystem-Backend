@@ -61,7 +61,6 @@ namespace StudentManagementSystem.Repository
             timetableData.Date = timeTableRequest.Date;
             timetableData.StartTime = timeTableRequest.StartTime;
             timetableData.EndTime = timeTableRequest.EndTime;
-            timetableData.Room = timeTableRequest.Room;
 
             _appDbContext.SaveChanges();
             return timetableData;

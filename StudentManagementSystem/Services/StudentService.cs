@@ -10,10 +10,12 @@ namespace StudentManagementSystem.Services
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IUserRepository _userRepository;
 
-        public StudentService(IStudentRepository studentRepository)
+        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository)
         {
             _studentRepository = studentRepository;
+            _userRepository = userRepository;
         }
 
 
@@ -24,10 +26,10 @@ namespace StudentManagementSystem.Services
             {
                 ID = student.ID,
                 Name = student.Name,
-                Email = student.Email,
                 Phone = student.Phone,
                 EnrollmentDate = student.EnrollmentDate,
                 ClassID = student.ClassID,
+                
 
             });
         }
@@ -37,14 +39,13 @@ namespace StudentManagementSystem.Services
             var students = await _studentRepository.GetStudentByIdAsync(id);
             if (students == null)
             {
-                return null;
+                throw new KeyNotFoundException("Student not found.");
             }
 
             return new StudentResponce
             {
                 ID = students.ID,
                 Name = students.Name,
-                Email = students.Email,
                 Phone = students.Phone,
                 EnrollmentDate = students.EnrollmentDate,
                 ClassID = students.ClassID,
@@ -53,26 +54,45 @@ namespace StudentManagementSystem.Services
 
         public async Task<StudentResponce> AddStudentAsync(StudentRequest studentRequest)
         {
+            
+            var role = await _userRepository.GetRoleByNameAsync("student");
+
+            // map user entity and relate to the userrole
+            var user = new User {
+                Email = studentRequest.Email,
+                Password = studentRequest.Password,
+                UserRole = new UserRole
+                {
+                    RoleID = role.ID,
+                }
+            };
+
+            // add in db
+            var userEntity = await _userRepository.AddUserAsync(user);
+
+            // map student entity
             var student = new Student
             {
-                ID = Guid.NewGuid(),
+                ID = userEntity.ID,
                 Name = studentRequest.Name,
-                Email = studentRequest.Email,
                 Phone = studentRequest.Phone,
-                EnrollmentDate = studentRequest.EnrollmentDate,
+                EnrollmentDate = DateTime.Now,
                 ClassID = studentRequest.ClassID,
             };
+
+            // add in db
             await _studentRepository.AddStudentAsync(student);
 
             return new StudentResponce
             {
                 ID = student.ID,
                 Name = student.Name,
-                Email = student.Email,
                 Phone = student.Phone,
                 EnrollmentDate = student.EnrollmentDate,
                 ClassID = student.ClassID,
             };
+
+            
         }
 
         public async Task UpdateStudentAsync(Guid id, StudentRequest studentRequest)
@@ -80,13 +100,11 @@ namespace StudentManagementSystem.Services
             var student = await _studentRepository.GetStudentByIdAsync(id);
             if (student == null)
             {
-                throw new Exception("Student Not Found");
+                throw new KeyNotFoundException("Student not found.");
             }
 
             studentRequest.Name = student.Name;
-            studentRequest.Email = student.Email;
             studentRequest.Phone = student.Phone;
-            studentRequest.EnrollmentDate = student.EnrollmentDate;
             studentRequest.ClassID = student.ClassID;
 
             await _studentRepository.UpdateStudentAsync(student);
@@ -94,7 +112,43 @@ namespace StudentManagementSystem.Services
 
         public async Task DeleteStudentAsync(Guid id)
         {
+            var student = await _studentRepository.GetStudentByIdAsync(id);
+            if (student == null)
+                throw new KeyNotFoundException("Student not found.");
+
             await _studentRepository.DeleteStudentAsync(id);
+        }
+
+        public async Task<UserResponse> AssignRoleToUserAsync(UserRequest userRequest, string roleName)
+        {
+            var role = await _userRepository.GetRoleByNameAsync(roleName);
+            if (role == null)
+            {
+                throw new KeyNotFoundException("Role not found.");
+            }
+
+            var user = new User
+            {
+                ID = Guid.NewGuid(),
+                Email = userRequest.Email,
+                Password = userRequest.Password,
+            };
+
+            await _userRepository.AddUserAsync(user);
+
+            var userRole = new UserRole
+            {
+                UserID = user.ID,
+                RoleID = role.ID,
+            };
+
+            await _userRepository.AddUserRoleAsync(userRole);
+
+            return new UserResponse
+            {
+                ID = user.ID,
+                Email = user.Email,
+            };
         }
     }
 }

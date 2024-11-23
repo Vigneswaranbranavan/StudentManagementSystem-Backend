@@ -9,5 +9,7 @@ namespace StudentManagementSystem.IRepository
         Task AddStudentAsync(Student student);
         Task UpdateStudentAsync(Student student);
         Task DeleteStudentAsync(Guid id);
+        Task<Role> GetRoleByNameAsync(string roleName);
+
     }
 }

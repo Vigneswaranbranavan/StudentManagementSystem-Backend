@@ -18,7 +18,8 @@ namespace StudentManagementSystem.Repository
 
         public async Task<Student> GetStudentByIdAsync(Guid id)
         {
-            return await _appDbContext.Students.FindAsync(id);
+            return await _appDbContext.Students
+                .FirstOrDefaultAsync(s => s.ID == id);
         }
 
         public async Task AddStudentAsync(Student student)
@@ -29,8 +30,23 @@ namespace StudentManagementSystem.Repository
 
         public async Task UpdateStudentAsync(Student student)
         {
-            _appDbContext.Students.Update(student);
-            await _appDbContext.SaveChangesAsync();
+
+            var existingStudents = await _appDbContext.Students.FindAsync(student.ID);
+            if (existingStudents != null)
+            {
+                existingStudents.Name = student.Name;
+                existingStudents.Phone = student.Phone;
+                existingStudents.EnrollmentDate = student.EnrollmentDate;
+                existingStudents.ClassID = student.ClassID;
+
+                await _appDbContext.SaveChangesAsync();
+
+            }
+
+            else
+            {
+                throw new KeyNotFoundException("Student not found");
+            }
         }
 
         public async Task DeleteStudentAsync(Guid id)
@@ -41,6 +57,17 @@ namespace StudentManagementSystem.Repository
                 _appDbContext.Students.Remove(student);
                 await _appDbContext.SaveChangesAsync();
             }
+            else
+            {
+                throw new KeyNotFoundException("student not found");
+            }
         }
+
+        public async Task<Role> GetRoleByNameAsync(string roleName)
+        {
+            return await _appDbContext.Roles
+                .FirstOrDefaultAsync(r => r.RoleName.Equals(roleName, StringComparison.OrdinalIgnoreCase));
+        }
+
     }
 }

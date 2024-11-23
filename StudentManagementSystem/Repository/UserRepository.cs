@@ -4,7 +4,7 @@ using StudentManagementSystem.IRepository;
 
 namespace StudentManagementSystem.Repository
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _appDbContext;
         public UserRepository(AppDbContext appDbContext)
@@ -22,16 +22,27 @@ namespace StudentManagementSystem.Repository
             return await _appDbContext.Users.FindAsync(id);
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task<User> AddUserAsync(User user)
         {
-            await _appDbContext.Users.AddAsync(user);
+            var entity = await _appDbContext.Users.AddAsync(user);
             await _appDbContext.SaveChangesAsync();
+            return entity.Entity;
         }
 
         public async Task UpdateUserAsync(User user)
         {
-            _appDbContext.Users.Update(user);
-            await _appDbContext.SaveChangesAsync();
+            var existingUser = await _appDbContext.Users.FindAsync(user.ID);
+            if (existingUser != null)
+            {
+                existingUser.Email = user.Email;
+                existingUser.Password = user.Password;
+
+                await _appDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException("User not found");
+            }
         }
 
         public async Task DeleteUserAsync(Guid id)
@@ -42,11 +53,17 @@ namespace StudentManagementSystem.Repository
                 _appDbContext.Users.Remove(user);
                 await _appDbContext.SaveChangesAsync();
             }
+            else
+            {
+                throw new KeyNotFoundException("User not Found");
+            }
         }
 
         public async Task<Role> GetRoleByNameAsync(string roleName)
         {
-            return await  _appDbContext.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
+            return await _appDbContext.Roles
+                .FirstOrDefaultAsync(r => r.RoleName == roleName);
+            //.FirstOrDefaultAsync(r => r.RoleName.Equals(roleName, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task AddUserRoleAsync(UserRole userRole)

@@ -111,7 +111,6 @@ namespace StudentManagementSystem.Services
                 timetableResponse.Date = item.Date;
                 timetableResponse.StartTime = item.StartTime;
                 timetableResponse.EndTime = item.EndTime;
-                timetableResponse.Room = item.Room;
 
                 timetableResList.Add(timetableResponse);
 
