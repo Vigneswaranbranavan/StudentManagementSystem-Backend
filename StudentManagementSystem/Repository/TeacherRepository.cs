@@ -63,7 +63,7 @@ namespace StudentManagementSystem.Repository
 
         public async Task<List<Timetable>> GetTimetableByTeacherId(Guid teacherId)
         {
-            var timetable = await _appDbContext.Timetables.Where(t => t.TeacherID == teacherId).Include(t => t.Subject).Include(t => t.Class).ToListAsync();
+            var timetable = await _appDbContext.Timetables.Include(t => t.Teacher).ThenInclude(i=>i.Subject).Include(t => t.Class).Where(t => t.TeacherID == teacherId).ToListAsync();
             if (timetable == null)
             {
                 throw new Exception("ID is Not Found");

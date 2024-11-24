@@ -5,7 +5,6 @@ namespace StudentManagementSystem.DTO.Response
     public class TimeTableResponse
     {
         public Guid ID { get; set; }
-        public Guid SubjectID { get; set; }
        
         public Guid TeacherID { get; set; }
        

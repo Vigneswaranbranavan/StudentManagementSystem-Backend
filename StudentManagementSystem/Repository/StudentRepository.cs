@@ -66,7 +66,7 @@ namespace StudentManagementSystem.Repository
         public async Task<Role> GetRoleByNameAsync(string roleName)
         {
             return await _appDbContext.Roles
-                .FirstOrDefaultAsync(r => r.RoleName.Equals(roleName, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefaultAsync(r => r.RoleName.ToLower() == roleName.ToLower());
         }
 
     }

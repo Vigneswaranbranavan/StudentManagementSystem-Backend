@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using StudentManagementSystem.DTO.Request;
@@ -17,6 +18,7 @@ namespace StudentManagementSystem.Controllers
             _attendanceService = attendanceService;
         }
 
+        [Authorize]
         [HttpPost("Attendance")]
         public async Task<IActionResult> AddAttendance(AttendanceRequest request)
         {

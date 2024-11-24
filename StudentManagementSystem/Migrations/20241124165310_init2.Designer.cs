@@ -12,8 +12,8 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241117192242_init5")]
-    partial class init5
+    [Migration("20241124165310_init2")]
+    partial class init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace StudentManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClassID")
+                    b.Property<Guid?>("ClassID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
@@ -159,14 +159,51 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("f8ff2329-8724-47fc-9f8f-f4dbd1858514"),
+                            ID = new Guid("aff470dd-a0c2-48d6-a627-dc824e9858c3"),
+                            RoleName = "administrator"
+                        },
+                        new
+                        {
+                            ID = new Guid("4c3590e9-b91e-4327-ad8d-f93ba233a60a"),
+                            RoleName = "staff"
+                        },
+                        new
+                        {
+                            ID = new Guid("d8a99dd9-b732-4237-a9b7-59af1134c1c2"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("ae1d56c4-3a2a-435d-9b4e-644a6a490eae"),
+                            ID = new Guid("dce7976d-1275-434b-b645-6b6f5c670339"),
                             RoleName = "student"
                         });
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Entities.Staff", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Student", b =>
@@ -177,10 +214,6 @@ namespace StudentManagementSystem.Migrations
 
                     b.Property<Guid>("ClassID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
@@ -262,17 +295,15 @@ namespace StudentManagementSystem.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Room")
+                    b.Property<string>("EndTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
+                    b.Property<string>("StartTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("SubjectID")
+                    b.Property<Guid?>("SubjectID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TeacherID")
@@ -324,26 +355,23 @@ namespace StudentManagementSystem.Migrations
 
                     b.HasIndex("RoleID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Attendance", b =>
                 {
-                    b.HasOne("StudentManagementSystem.Entities.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("StudentManagementSystem.Entities.Class", null)
+                        .WithMany("Attendances")
+                        .HasForeignKey("ClassID");
 
                     b.HasOne("StudentManagementSystem.Entities.Student", "Student")
                         .WithMany("Attendances")
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Class");
 
                     b.Navigation("Student");
                 });
@@ -411,11 +439,9 @@ namespace StudentManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StudentManagementSystem.Entities.Subject", "Subject")
+                    b.HasOne("StudentManagementSystem.Entities.Subject", null)
                         .WithMany("Timetables")
-                        .HasForeignKey("SubjectID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectID");
 
                     b.HasOne("StudentManagementSystem.Entities.Teacher", "Teacher")
                         .WithMany("Timetables")
@@ -424,8 +450,6 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Class");
-
-                    b.Navigation("Subject");
 
                     b.Navigation("Teacher");
                 });
@@ -439,8 +463,8 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("StudentManagementSystem.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
+                        .WithOne("UserRole")
+                        .HasForeignKey("StudentManagementSystem.Entities.UserRole", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -451,6 +475,8 @@ namespace StudentManagementSystem.Migrations
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Class", b =>
                 {
+                    b.Navigation("Attendances");
+
                     b.Navigation("Students");
 
                     b.Navigation("Timetables");
@@ -476,6 +502,12 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Entities.Teacher", b =>
                 {
                     b.Navigation("Timetables");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Entities.User", b =>
+                {
+                    b.Navigation("UserRole")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

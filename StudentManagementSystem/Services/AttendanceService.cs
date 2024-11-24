@@ -23,7 +23,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = Guid.NewGuid(),
                 StudentID = request.StudentID,
-                ClassID = request.ClassID,
                 Date = request.Date,
                 Status = request.Status
             };
@@ -35,7 +34,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = attendanceData.ID,
                 StudentID = attendanceData.StudentID,
-                ClassID = attendanceData.ClassID,
                 Date = attendanceData.Date,
                 Status = attendanceData.Status
             };
@@ -56,7 +54,6 @@ namespace StudentManagementSystem.Services
                 {
                     ID = item.ID,
                     StudentID = item.StudentID,
-                    ClassID = item.ClassID,
                     Date = item.Date,
                     Status = item.Status
                 };
@@ -76,7 +73,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = attendanceData.ID,
                 StudentID = attendanceData.StudentID,
-                ClassID = attendanceData.ClassID,
                 Date = attendanceData.Date,
                 Status = attendanceData.Status
             };
@@ -93,7 +89,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = attendanceData.ID,
                 StudentID = attendanceData.StudentID,
-                ClassID = attendanceData.ClassID,
                 Date = attendanceData.Date,
                 Status = attendanceData.Status
             };
@@ -110,7 +105,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = attendanceData.ID,
                 StudentID = attendanceData.StudentID,
-                ClassID = attendanceData.ClassID,
                 Date = attendanceData.Date,
                 Status = attendanceData.Status
             };
@@ -131,7 +125,6 @@ namespace StudentManagementSystem.Services
                 {
                     ID = item.ID,
                     StudentID = item.StudentID,
-                    ClassID = item.ClassID,
                     Date = item.Date,
                     Status = item.Status
                 };
@@ -156,7 +149,6 @@ namespace StudentManagementSystem.Services
                 {
                     ID = item.ID,
                     StudentID = item.StudentID,
-                    ClassID = item.ClassID,
                     Date = item.Date,
                     Status = item.Status
                 };
@@ -181,7 +173,6 @@ namespace StudentManagementSystem.Services
                 {
                     ID = item.ID,
                     StudentID = item.StudentID,
-                    ClassID = item.ClassID,
                     Date = item.Date,
                     Status = item.Status
                 };

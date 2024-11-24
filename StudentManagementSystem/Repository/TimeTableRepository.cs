@@ -54,8 +54,6 @@ namespace StudentManagementSystem.Repository
                 throw new Exception("ID is Not Found");
             }
 
-
-            timetableData.SubjectID = timeTableRequest.SubjectID;
             timetableData.TeacherID = timeTableRequest.TeacherID;
             timetableData.ClassID = timeTableRequest.ClassID;
             timetableData.Date = timeTableRequest.Date;
@@ -104,7 +102,7 @@ namespace StudentManagementSystem.Repository
 
         public async Task<List<Timetable>> GetTimetablesBySubjectId(Guid subjectId)
         {
-            var timetableData = await _appDbContext.Timetables.Where(tt => tt.SubjectID == subjectId).ToListAsync();
+            var timetableData = await _appDbContext.Timetables.Include(i=>i.Teacher).Where(tt => tt.Teacher.SubjectID == subjectId).ToListAsync();
             if (timetableData == null)
             {
                 throw new Exception("ID is Not Found");

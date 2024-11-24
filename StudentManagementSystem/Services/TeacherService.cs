@@ -105,7 +105,6 @@ namespace StudentManagementSystem.Services
             {
                 var timetableResponse = new TimeTableResponse();
                 timetableResponse.ID = item.ID;
-                timetableResponse.SubjectID = item.SubjectID;
                 timetableResponse.TeacherID = item.TeacherID;
                 timetableResponse.ClassID = item.ClassID;
                 timetableResponse.Date = item.Date;

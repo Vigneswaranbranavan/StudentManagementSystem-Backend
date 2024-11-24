@@ -1,10 +1,13 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using StudentManagementSystem.IRepository;
 using StudentManagementSystem.IServices;
 using StudentManagementSystem.Repository;
 using StudentManagementSystem.Services;
 using System;
+using System.Text;
 
 namespace StudentManagementSystem
 {
@@ -26,6 +29,7 @@ namespace StudentManagementSystem
             // Register DbContext before building the application
             builder.Services.AddDbContext<AppDbContext>(opt =>
                  opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -58,12 +62,37 @@ namespace StudentManagementSystem
             builder.Services.AddScoped<IStaffRepository, StaffRepository>();
             builder.Services.AddScoped<IStaffService, StaffService>();
 
+            builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+
 
 
             //builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+
+
+            // JWT Authentication Configuration
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            });
+
 
 
 
@@ -93,6 +122,8 @@ namespace StudentManagementSystem
 
             app.UseHttpsRedirection();
 
+            // Use authentication and authorization
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

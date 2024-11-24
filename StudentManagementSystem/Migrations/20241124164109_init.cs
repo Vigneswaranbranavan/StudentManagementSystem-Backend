@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace StudentManagementSystem.Migrations
 {
     /// <inheritdoc />
@@ -37,6 +39,21 @@ namespace StudentManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Staff",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Department = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Staff", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Subjects",
                 columns: table => new
                 {
@@ -51,15 +68,28 @@ namespace StudentManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClassID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ClassID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,26 +100,11 @@ namespace StudentManagementSystem.Migrations
                         principalTable: "Classes",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Users_Roles_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Roles",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Students_Staff_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Staff",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -100,44 +115,23 @@ namespace StudentManagementSystem.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubjectID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    SubjectID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teachers", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Teachers_Staff_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Staff",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Teachers_Subjects_SubjectID",
                         column: x => x.SubjectID,
                         principalTable: "Subjects",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Attendances",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StudentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClassID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attendances", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Classes_ClassID",
-                        column: x => x.ClassID,
-                        principalTable: "Classes",
-                        principalColumn: "ID"
-                        );
-                    table.ForeignKey(
-                        name: "FK_Attendances_Students_StudentID",
-                        column: x => x.StudentID,
-                        principalTable: "Students",
-                        principalColumn: "ID"
-                        );
                 });
 
             migrationBuilder.CreateTable(
@@ -204,25 +198,51 @@ namespace StudentManagementSystem.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    RoleID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserID, x.RoleID });
+                    table.PrimaryKey("PK_UserRoles", x => x.ID);
                     table.ForeignKey(
                         name: "FK_UserRoles_Roles_RoleID",
                         column: x => x.RoleID,
                         principalTable: "Roles",
-                        principalColumn: "ID"
-                       );
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "ID"
-                       );
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Attendances",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StudentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClassID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attendances", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Attendances_Classes_ClassID",
+                        column: x => x.ClassID,
+                        principalTable: "Classes",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Attendances_Students_StudentID",
+                        column: x => x.StudentID,
+                        principalTable: "Students",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,13 +250,12 @@ namespace StudentManagementSystem.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubjectID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TeacherID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClassID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Room = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EndTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubjectID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -245,20 +264,30 @@ namespace StudentManagementSystem.Migrations
                         name: "FK_Timetables_Classes_ClassID",
                         column: x => x.ClassID,
                         principalTable: "Classes",
-                        principalColumn: "ID"
-                        );
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Timetables_Subjects_SubjectID",
                         column: x => x.SubjectID,
                         principalTable: "Subjects",
-                        principalColumn: "ID"
-                        );
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Timetables_Teachers_TeacherID",
                         column: x => x.TeacherID,
                         principalTable: "Teachers",
-                        principalColumn: "ID"
-                        );
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "ID", "RoleName" },
+                values: new object[,]
+                {
+                    { new Guid("1edbefd4-957e-4fdf-846b-9bbb4603cd92"), "administrator" },
+                    { new Guid("4834b05e-964e-4ddf-a1c7-7371e440e212"), "teacher" },
+                    { new Guid("90c222b4-a8ec-46fc-9207-ea23b85cc97d"), "student" },
+                    { new Guid("c1772143-f855-4cd3-92d4-1f1d04c9cb75"), "staff" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -292,6 +321,16 @@ namespace StudentManagementSystem.Migrations
                 column: "ClassID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Students_StaffId",
+                table: "Students",
+                column: "StaffId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teachers_StaffId",
+                table: "Teachers",
+                column: "StaffId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Teachers_SubjectID",
                 table: "Teachers",
                 column: "SubjectID");
@@ -317,9 +356,10 @@ namespace StudentManagementSystem.Migrations
                 column: "RoleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleID",
-                table: "Users",
-                column: "RoleID");
+                name: "IX_UserRoles_UserID",
+                table: "UserRoles",
+                column: "UserID",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -350,16 +390,19 @@ namespace StudentManagementSystem.Migrations
                 name: "Teachers");
 
             migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Classes");
 
             migrationBuilder.DropTable(
-                name: "Subjects");
+                name: "Staff");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Subjects");
         }
     }
 }

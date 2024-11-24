@@ -49,7 +49,6 @@ namespace StudentManagementSystem.Repository
             }
 
             attendanceData.StudentID = request.StudentID;
-            attendanceData.ClassID = request.ClassID;
             attendanceData.Date = request.Date;
             attendanceData.Status = request.Status;
 
@@ -84,7 +83,7 @@ namespace StudentManagementSystem.Repository
 
         public async Task<List<Attendance>> GetAttendanceByClassId(Guid classId)
         {
-            var attendanceData = await _appDbContext.Attendances.Where(a => a.ClassID == classId).ToListAsync();
+            var attendanceData = await _appDbContext.Attendances.Include(i=>i.Student).Where(a => a.Student.ClassID == classId).ToListAsync();
             if (attendanceData == null)
             {
                 throw new Exception("ID is Not Found");

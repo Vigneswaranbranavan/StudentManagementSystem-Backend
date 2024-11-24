@@ -3,8 +3,6 @@ using StudentManagementSystem.DTO.Response;
 using StudentManagementSystem.Entities;
 using StudentManagementSystem.IRepository;
 using StudentManagementSystem.IServices;
-using StudentManagementSystem.Repository;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StudentManagementSystem.Services
 {
@@ -22,7 +20,6 @@ namespace StudentManagementSystem.Services
             var timetable = new Timetable
             {
                 ID = Guid.NewGuid(),
-                SubjectID = timeTableRequest.SubjectID,
                 TeacherID = timeTableRequest.TeacherID,
                 ClassID = timeTableRequest.ClassID,
                 Date = timeTableRequest.Date,
@@ -36,7 +33,6 @@ namespace StudentManagementSystem.Services
             var timetableResponse = new TimeTableResponse
             {
                 ID = timetableData.ID,
-                SubjectID = timetableData.SubjectID,
                 TeacherID = timetableData.TeacherID,
                 ClassID = timetableData.ClassID,
                 Date = timetableData.Date,
@@ -61,7 +57,6 @@ namespace StudentManagementSystem.Services
                 var timetableResponse = new TimeTableResponse
                 {
                     ID = item.ID,
-                    SubjectID = item.SubjectID,
                     TeacherID = item.TeacherID,
                     ClassID = item.ClassID,
                     Date = item.Date,
@@ -84,7 +79,6 @@ namespace StudentManagementSystem.Services
             var timetableResponse = new TimeTableResponse
             {
                 ID = timetableData.ID,
-                SubjectID = timetableData.SubjectID,
                 TeacherID = timetableData.TeacherID,
                 ClassID = timetableData.ClassID,
                 Date = timetableData.Date,
@@ -104,7 +98,6 @@ namespace StudentManagementSystem.Services
             var timetableResponse = new TimeTableResponse
             {
                 ID = timetableData.ID,
-                SubjectID = timetableData.SubjectID,
                 TeacherID = timetableData.TeacherID,
                 ClassID = timetableData.ClassID,
                 Date = timetableData.Date,
@@ -124,7 +117,6 @@ namespace StudentManagementSystem.Services
             var timetableResponse = new TimeTableResponse
             {
                 ID = timetableData.ID,
-                SubjectID = timetableData.SubjectID,
                 TeacherID = timetableData.TeacherID,
                 ClassID = timetableData.ClassID,
                 Date = timetableData.Date,
@@ -149,7 +141,6 @@ namespace StudentManagementSystem.Services
                 var timetableResponse = new TimeTableResponse
                 {
                     ID = item.ID,
-                    SubjectID = item.SubjectID,
                     TeacherID = item.TeacherID,
                     ClassID = item.ClassID,
                     Date = item.Date,
@@ -179,7 +170,6 @@ namespace StudentManagementSystem.Services
                 var timetableResponse = new TimeTableResponse
                 {
                     ID = item.ID,
-                    SubjectID = item.SubjectID,
                     TeacherID = item.TeacherID,
                     ClassID = item.ClassID,
                     Date = item.Date,
@@ -209,7 +199,6 @@ namespace StudentManagementSystem.Services
                 var timetableResponse = new TimeTableResponse
                 {
                     ID = item.ID,
-                    SubjectID = item.SubjectID,
                     TeacherID = item.TeacherID,
                     ClassID = item.ClassID,
                     Date = item.Date,

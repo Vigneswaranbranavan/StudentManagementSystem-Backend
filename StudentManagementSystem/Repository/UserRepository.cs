@@ -1,76 +1,37 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using StudentManagementSystem.Entities;
 using StudentManagementSystem.IRepository;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace StudentManagementSystem.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly AppDbContext _appDbContext;
-        public UserRepository(AppDbContext appDbContext)
-        {
-            _appDbContext = appDbContext;
-        }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            return await _appDbContext.Users.ToListAsync();
-        }
+        private readonly AppDbContext _context;
 
-        public async Task<User> GetUserByIdAsync(Guid id)
+        public UserRepository(AppDbContext context)
         {
-            return await _appDbContext.Users.FindAsync(id);
+            _context = context;
         }
 
         public async Task<User> AddUserAsync(User user)
         {
-            var entity = await _appDbContext.Users.AddAsync(user);
-            await _appDbContext.SaveChangesAsync();
-            return entity.Entity;
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
-
-        public async Task UpdateUserAsync(User user)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
-            var existingUser = await _appDbContext.Users.FindAsync(user.ID);
-            if (existingUser != null)
-            {
-                existingUser.Email = user.Email;
-                existingUser.Password = user.Password;
-
-                await _appDbContext.SaveChangesAsync();
-            }
-            else
-            {
-                throw new KeyNotFoundException("User not found");
-            }
+            return await _context.Users
+                                 .Include(u => u.UserRole) 
+                                 .ThenInclude(z => z.Role) 
+                                 .SingleOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task DeleteUserAsync(Guid id)
-        {
-            var user = await _appDbContext.Users.FindAsync(id);
-            if (user != null)
-            {
-                _appDbContext.Users.Remove(user);
-                await _appDbContext.SaveChangesAsync();
-            }
-            else
-            {
-                throw new KeyNotFoundException("User not Found");
-            }
-        }
-
-        public async Task<Role> GetRoleByNameAsync(string roleName)
-        {
-            return await _appDbContext.Roles
-                .FirstOrDefaultAsync(r => r.RoleName == roleName);
-            //.FirstOrDefaultAsync(r => r.RoleName.Equals(roleName, StringComparison.OrdinalIgnoreCase));
-        }
-
-        public async Task AddUserRoleAsync(UserRole userRole)
-        {
-            await _appDbContext.UserRoles.AddAsync(userRole);
-            await _appDbContext.SaveChangesAsync();
-        }
 
     }
 }

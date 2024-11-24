@@ -11,11 +11,13 @@ namespace StudentManagementSystem.Services
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ITokenRepository _tokenRepository;
 
-        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository)
+        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository,ITokenRepository tokenRepository)
         {
             _studentRepository = studentRepository;
             _userRepository = userRepository;
+            _tokenRepository = tokenRepository;
         }
 
 
@@ -55,7 +57,11 @@ namespace StudentManagementSystem.Services
         public async Task<StudentResponce> AddStudentAsync(StudentRequest studentRequest)
         {
             
-            var role = await _userRepository.GetRoleByNameAsync("student");
+            var role = await _studentRepository.GetRoleByNameAsync("student");
+
+            if (role == null)
+                throw new InvalidOperationException("Role not found.");
+
 
             // map user entity and relate to the userrole
             var user = new User {
@@ -82,6 +88,10 @@ namespace StudentManagementSystem.Services
 
             // add in db
             await _studentRepository.AddStudentAsync(student);
+
+            // Generate a JWT token
+            var token = _tokenRepository.GenerateToken(user.Email,  "student");
+
 
             return new StudentResponce
             {
@@ -119,36 +129,36 @@ namespace StudentManagementSystem.Services
             await _studentRepository.DeleteStudentAsync(id);
         }
 
-        public async Task<UserResponse> AssignRoleToUserAsync(UserRequest userRequest, string roleName)
-        {
-            var role = await _userRepository.GetRoleByNameAsync(roleName);
-            if (role == null)
-            {
-                throw new KeyNotFoundException("Role not found.");
-            }
+        //public async Task<UserResponse> AssignRoleToUserAsync(UserRequest userRequest, string roleName)
+        //{
+        //    var role = await _userRepository.GetRoleByNameAsync(roleName);
+        //    if (role == null)
+        //    {
+        //        throw new KeyNotFoundException("Role not found.");
+        //    }
 
-            var user = new User
-            {
-                ID = Guid.NewGuid(),
-                Email = userRequest.Email,
-                Password = userRequest.Password,
-            };
+        //    var user = new User
+        //    {
+        //        ID = Guid.NewGuid(),
+        //        Email = userRequest.Email,
+        //        Password = userRequest.Password,
+        //    };
 
-            await _userRepository.AddUserAsync(user);
+        //    await _userRepository.AddUserAsync(user);
 
-            var userRole = new UserRole
-            {
-                UserID = user.ID,
-                RoleID = role.ID,
-            };
+        //    var userRole = new UserRole
+        //    {
+        //        UserID = user.ID,
+        //        RoleID = role.ID,
+        //    };
 
-            await _userRepository.AddUserRoleAsync(userRole);
+        //    await _userRepository.AddUserRoleAsync(userRole);
 
-            return new UserResponse
-            {
-                ID = user.ID,
-                Email = user.Email,
-            };
-        }
+        //    return new UserResponse
+        //    {
+        //        ID = user.ID,
+        //        Email = user.Email,
+        //    };
+        //}
     }
 }
