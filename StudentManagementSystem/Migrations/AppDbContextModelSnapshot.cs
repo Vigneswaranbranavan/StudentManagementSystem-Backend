@@ -60,9 +60,6 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GradeLevel")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.ToTable("Classes");
@@ -156,22 +153,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("aff470dd-a0c2-48d6-a627-dc824e9858c3"),
+                            ID = new Guid("f0c7f896-835a-4fa5-abc0-fef804f86730"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("4c3590e9-b91e-4327-ad8d-f93ba233a60a"),
+                            ID = new Guid("bc4aa3bc-354c-4fa8-aec5-22564a004e0e"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("d8a99dd9-b732-4237-a9b7-59af1134c1c2"),
+                            ID = new Guid("05f8fb35-a973-4688-af87-a3d86f3c6194"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("dce7976d-1275-434b-b645-6b6f5c670339"),
+                            ID = new Guid("8f7abcc7-ab97-4289-9452-a900a1417837"),
                             RoleName = "student"
                         });
                 });
@@ -181,14 +178,6 @@ namespace StudentManagementSystem.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -236,13 +225,6 @@ namespace StudentManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Credits")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SubjectName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -257,10 +239,6 @@ namespace StudentManagementSystem.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

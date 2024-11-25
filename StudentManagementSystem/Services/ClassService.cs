@@ -23,7 +23,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = Guid.NewGuid(),
                 ClassName = classRequest.ClassName,
-                GradeLevel = classRequest.GradeLevel
 
             };
 
@@ -33,7 +32,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = classData.ID,
                 ClassName = classData.ClassName,
-                GradeLevel = classData.GradeLevel
             };
 
             return classResponse;
@@ -52,7 +50,6 @@ namespace StudentManagementSystem.Services
                 {
                     ID = item.ID,
                     ClassName = item.ClassName,
-                    GradeLevel = item.GradeLevel
                 };
 
                 classList.Add(classResponse);
@@ -70,7 +67,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = classData.ID,
                 ClassName = classData.ClassName,
-                GradeLevel = classData.GradeLevel
             };
 
             return classResponse;
@@ -84,7 +80,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = classData.ID,
                 ClassName = classData.ClassName,
-                GradeLevel = classData.GradeLevel
             };
 
             return classResponse;
@@ -98,7 +93,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = classData.ID,
                 ClassName = classData.ClassName,
-                GradeLevel = classData.GradeLevel
             };
 
             return classResponse;

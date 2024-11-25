@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,8 +18,7 @@ namespace StudentManagementSystem.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClassName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GradeLevel = table.Column<int>(type: "int", nullable: false)
+                    ClassName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,9 +43,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Department = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,9 +55,7 @@ namespace StudentManagementSystem.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Credits = table.Column<int>(type: "int", nullable: false),
-                    Department = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SubjectName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,8 +83,7 @@ namespace StudentManagementSystem.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClassID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ClassID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,11 +94,6 @@ namespace StudentManagementSystem.Migrations
                         principalTable: "Classes",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Students_Staff_StaffId",
-                        column: x => x.StaffId,
-                        principalTable: "Staff",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -113,19 +102,12 @@ namespace StudentManagementSystem.Migrations
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubjectID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    SubjectID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teachers", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Teachers_Staff_StaffId",
-                        column: x => x.StaffId,
-                        principalTable: "Staff",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Teachers_Subjects_SubjectID",
                         column: x => x.SubjectID,
@@ -284,10 +266,10 @@ namespace StudentManagementSystem.Migrations
                 columns: new[] { "ID", "RoleName" },
                 values: new object[,]
                 {
-                    { new Guid("1edbefd4-957e-4fdf-846b-9bbb4603cd92"), "administrator" },
-                    { new Guid("4834b05e-964e-4ddf-a1c7-7371e440e212"), "teacher" },
-                    { new Guid("90c222b4-a8ec-46fc-9207-ea23b85cc97d"), "student" },
-                    { new Guid("c1772143-f855-4cd3-92d4-1f1d04c9cb75"), "staff" }
+                    { new Guid("05f8fb35-a973-4688-af87-a3d86f3c6194"), "teacher" },
+                    { new Guid("8f7abcc7-ab97-4289-9452-a900a1417837"), "student" },
+                    { new Guid("bc4aa3bc-354c-4fa8-aec5-22564a004e0e"), "staff" },
+                    { new Guid("f0c7f896-835a-4fa5-abc0-fef804f86730"), "administrator" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -319,16 +301,6 @@ namespace StudentManagementSystem.Migrations
                 name: "IX_Students_ClassID",
                 table: "Students",
                 column: "ClassID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_StaffId",
-                table: "Students",
-                column: "StaffId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Teachers_StaffId",
-                table: "Teachers",
-                column: "StaffId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teachers_SubjectID",
@@ -378,6 +350,9 @@ namespace StudentManagementSystem.Migrations
                 name: "OTPs");
 
             migrationBuilder.DropTable(
+                name: "Staff");
+
+            migrationBuilder.DropTable(
                 name: "Timetables");
 
             migrationBuilder.DropTable(
@@ -397,9 +372,6 @@ namespace StudentManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Classes");
-
-            migrationBuilder.DropTable(
-                name: "Staff");
 
             migrationBuilder.DropTable(
                 name: "Subjects");

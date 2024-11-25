@@ -10,36 +10,56 @@ namespace StudentManagementSystem.Services
     public class TeacherService : ITeacherService
     {
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ITokenRepository _tokenRepository;
 
-        public TeacherService(ITeacherRepository teacherRepository)
+        public TeacherService(ITeacherRepository teacherRepository, IUserRepository userRepository, ITokenRepository tokenRepository)
         {
             _teacherRepository = teacherRepository;
+            _userRepository = userRepository;
+            _tokenRepository = tokenRepository;
         }
 
         public async Task<TeacherResponse> AddTeacher(TeacherRequest teacherRequest)
         {
+            var role = await _teacherRepository.GetRoleByNameAsync("teacher");
+            if (role == null)
+            {
+                throw new InvalidOperationException("Role not Found");
+            }
+
+            var user = new User
+            {
+                Email = teacherRequest.Email,
+                Password = teacherRequest.Password,
+                UserRole = new UserRole
+
+                {
+                    RoleID = role.ID,
+                }
+            };
+            var userEntity = await _userRepository.AddUserAsync(user);
+
             var teacher = new Teacher
             {
-                ID = Guid.NewGuid(),
+                ID = userEntity.ID,
                 Name = teacherRequest.Name,
-                Email = teacherRequest.Email,
                 Phone = teacherRequest.Phone,
-                SubjectID = teacherRequest.SubjectID
+                SubjectID = teacherRequest.SubjectID,
             };
+            await _teacherRepository.AddTeacher(teacher);
+
+            var token = _tokenRepository.GenerateToken(user.Email, "teacher");
 
 
-            var teacherData = await _teacherRepository.AddTeacher(teacher);
-
-            var teacherResponse = new TeacherResponse
+            return new TeacherResponse
             {
-                ID = teacherData.ID,
-                Name = teacherData.Name,
-                Email = teacherData.Email,
-                Phone = teacherData.Phone,
-                SubjectID = teacherData.SubjectID
+                ID = teacher.ID,
+                Name = teacher.Name,
+                Phone = teacher.Phone,
+                SubjectID = teacher.SubjectID,
             };
 
-            return teacherResponse;
         }
 
 
@@ -54,7 +74,6 @@ namespace StudentManagementSystem.Services
                 var teacherResponse = new TeacherResponse();
                 teacherResponse.ID = item.ID;
                 teacherResponse.Name = item.Name;
-                teacherResponse.Email = item.Email;
                 teacherResponse.Phone = item.Phone;
                 teacherResponse.SubjectID = item.SubjectID;
 
@@ -72,7 +91,6 @@ namespace StudentManagementSystem.Services
             var teacherResponse = new TeacherResponse();
             teacherResponse.ID = teacherData.ID;
             teacherResponse.Name = teacherData.Name;
-            teacherResponse.Email = teacherData.Email;
             teacherResponse.Phone = teacherData.Phone;
             teacherResponse.SubjectID = teacherData.SubjectID;
 
@@ -87,7 +105,6 @@ namespace StudentManagementSystem.Services
             var teacherResponse = new TeacherResponse();
             teacherResponse.ID = teacherData.ID;
             teacherResponse.Name = teacherData.Name;
-            teacherResponse.Email = teacherData.Email;
             teacherResponse.Phone = teacherData.Phone;
             teacherResponse.SubjectID = teacherData.SubjectID;
 
@@ -131,7 +148,6 @@ namespace StudentManagementSystem.Services
                 var teacherResponse = new TeacherResponse();
                 teacherResponse.ID = item.ID;
                 teacherResponse.Name = item.Name;
-                teacherResponse.Email = item.Email;
                 teacherResponse.Phone = item.Phone;
                 teacherResponse.SubjectID = item.SubjectID;
 
@@ -150,7 +166,6 @@ namespace StudentManagementSystem.Services
             var teacherResponse = new TeacherResponse();
             teacherResponse.ID = teacherData.ID;
             teacherResponse.Name = teacherData.Name;
-            teacherResponse.Email = teacherData.Email;
             teacherResponse.Phone = teacherData.Phone;
             teacherResponse.SubjectID = teacherData.SubjectID;
 

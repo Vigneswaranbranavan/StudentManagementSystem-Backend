@@ -12,5 +12,6 @@ namespace StudentManagementSystem.IRepository
         Task<List<Timetable>> GetTimetableByTeacherId(Guid teacherId);
         Task<List<Teacher>> GetTeachersBySubjectId(Guid subjectId);
         Task<Teacher> DeleteTeacher(Guid id);
+        Task<Role> GetRoleByNameAsync(string roleName);
     }
 }

@@ -113,9 +113,9 @@ namespace StudentManagementSystem.Services
                 throw new KeyNotFoundException("Student not found.");
             }
 
-            studentRequest.Name = student.Name;
-            studentRequest.Phone = student.Phone;
-            studentRequest.ClassID = student.ClassID;
+            student.Name = studentRequest.Name;
+            student.Phone = studentRequest.Phone;
+            student.ClassID = studentRequest.ClassID;
 
             await _studentRepository.UpdateStudentAsync(student);
         }
@@ -129,36 +129,6 @@ namespace StudentManagementSystem.Services
             await _studentRepository.DeleteStudentAsync(id);
         }
 
-        //public async Task<UserResponse> AssignRoleToUserAsync(UserRequest userRequest, string roleName)
-        //{
-        //    var role = await _userRepository.GetRoleByNameAsync(roleName);
-        //    if (role == null)
-        //    {
-        //        throw new KeyNotFoundException("Role not found.");
-        //    }
 
-        //    var user = new User
-        //    {
-        //        ID = Guid.NewGuid(),
-        //        Email = userRequest.Email,
-        //        Password = userRequest.Password,
-        //    };
-
-        //    await _userRepository.AddUserAsync(user);
-
-        //    var userRole = new UserRole
-        //    {
-        //        UserID = user.ID,
-        //        RoleID = role.ID,
-        //    };
-
-        //    await _userRepository.AddUserRoleAsync(userRole);
-
-        //    return new UserResponse
-        //    {
-        //        ID = user.ID,
-        //        Email = user.Email,
-        //    };
-        //}
     }
 }

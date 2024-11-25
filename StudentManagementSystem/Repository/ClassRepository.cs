@@ -50,7 +50,6 @@ namespace StudentManagementSystem.Repository
             }
 
             classData.ClassName = classRequest.ClassName;
-            classData.GradeLevel = classRequest.GradeLevel;
 
             _appDbContext.SaveChanges();
             return classData;

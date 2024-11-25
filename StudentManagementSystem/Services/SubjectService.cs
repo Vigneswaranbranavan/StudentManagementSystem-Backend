@@ -22,8 +22,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = x.ID,
                 SubjectName = x.SubjectName,
-                Credits = x.Credits,
-                Department = x.Department,
             });
         }
 
@@ -38,8 +36,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = subjects.ID,
                 SubjectName = subjects.SubjectName,
-                Credits = subjects.Credits,
-                Department = subjects.Department,
             };
         }
 
@@ -49,8 +45,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = Guid.NewGuid(),
                 SubjectName = subjectRequest.SubjectName,
-                Credits = subjectRequest.Credits,
-                Department = subjectRequest.Department,
 
             };
 
@@ -60,8 +54,6 @@ namespace StudentManagementSystem.Services
             {
                 ID = subject.ID,
                 SubjectName = subject.SubjectName,
-                Credits = subject.Credits,
-                Department = subject.Department,
             };
         }
 
@@ -73,8 +65,6 @@ namespace StudentManagementSystem.Services
                 throw new Exception("Subject not Found");
             }
             subject.SubjectName = subjectRequest.SubjectName;
-            subject.Credits = subjectRequest.Credits;
-            subject.Department = subjectRequest.Department;
 
             await _subjectRepository.UpdateAsync(subject);
         }

@@ -49,9 +49,7 @@ namespace StudentManagementSystem.Repository
             }
 
             StaffData.Name = request.Name;
-            StaffData.Email = request.Email;
             StaffData.Phone = request.Phone;
-            StaffData.Department = request.Department;
 
 
             _appDbContext.SaveChanges();
@@ -69,6 +67,11 @@ namespace StudentManagementSystem.Repository
             _appDbContext.Remove(StaffData);
             _appDbContext.SaveChanges();
             return StaffData;
+        }
+        public async Task<Role> GetRoleByNameAsync(string roleName)
+        {
+            return await _appDbContext.Roles
+                .FirstOrDefaultAsync(r => r.RoleName.ToLower() == roleName.ToLower());
         }
     }
 }

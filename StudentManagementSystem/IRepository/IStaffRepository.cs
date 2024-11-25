@@ -10,5 +10,6 @@ namespace StudentManagementSystem.IRepository
         Task<Staff> GetStaffById(Guid id);
         Task<Staff> UpdateStaff(Guid id, StaffRequest request);
         Task<Staff> DeleteStaff(Guid id);
+        Task<Role> GetRoleByNameAsync(string roleName);
     }
 }

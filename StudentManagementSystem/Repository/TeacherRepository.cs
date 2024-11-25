@@ -51,7 +51,6 @@ namespace StudentManagementSystem.Repository
             }
 
             teacherData.Name = teacherRequest.Name;
-            teacherData.Email = teacherRequest.Email;
             teacherData.Phone = teacherRequest.Phone;
             teacherData.SubjectID = teacherRequest.SubjectID;
 
@@ -95,6 +94,10 @@ namespace StudentManagementSystem.Repository
             return teacherData;
         }
 
-
+        public async Task<Role> GetRoleByNameAsync(string roleName)
+        {
+            return await _appDbContext.Roles
+                .FirstOrDefaultAsync(r => r.RoleName.ToLower() == roleName.ToLower());
+        }
     }
 }

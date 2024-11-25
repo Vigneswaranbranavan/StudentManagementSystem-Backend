@@ -12,8 +12,8 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241124164109_init")]
-    partial class init
+    [Migration("20241125080515_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,9 +62,6 @@ namespace StudentManagementSystem.Migrations
                     b.Property<string>("ClassName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GradeLevel")
-                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -159,22 +156,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("1edbefd4-957e-4fdf-846b-9bbb4603cd92"),
+                            ID = new Guid("f0c7f896-835a-4fa5-abc0-fef804f86730"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("c1772143-f855-4cd3-92d4-1f1d04c9cb75"),
+                            ID = new Guid("bc4aa3bc-354c-4fa8-aec5-22564a004e0e"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("4834b05e-964e-4ddf-a1c7-7371e440e212"),
+                            ID = new Guid("05f8fb35-a973-4688-af87-a3d86f3c6194"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("90c222b4-a8ec-46fc-9207-ea23b85cc97d"),
+                            ID = new Guid("8f7abcc7-ab97-4289-9452-a900a1417837"),
                             RoleName = "student"
                         });
                 });
@@ -184,14 +181,6 @@ namespace StudentManagementSystem.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -226,14 +215,9 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("StaffId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("ID");
 
                     b.HasIndex("ClassID");
-
-                    b.HasIndex("StaffId");
 
                     b.ToTable("Students");
                 });
@@ -243,13 +227,6 @@ namespace StudentManagementSystem.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Credits")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SubjectName")
                         .IsRequired()
@@ -266,10 +243,6 @@ namespace StudentManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -278,15 +251,10 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("StaffId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("SubjectID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("StaffId");
 
                     b.HasIndex("SubjectID");
 
@@ -427,19 +395,11 @@ namespace StudentManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StudentManagementSystem.Entities.Staff", null)
-                        .WithMany("Students")
-                        .HasForeignKey("StaffId");
-
                     b.Navigation("Class");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Teacher", b =>
                 {
-                    b.HasOne("StudentManagementSystem.Entities.Staff", null)
-                        .WithMany("Teachers")
-                        .HasForeignKey("StaffId");
-
                     b.HasOne("StudentManagementSystem.Entities.Subject", "Subject")
                         .WithMany("Teachers")
                         .HasForeignKey("SubjectID")
@@ -503,13 +463,6 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Entities.Role", b =>
                 {
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.Entities.Staff", b =>
-                {
-                    b.Navigation("Students");
-
-                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Student", b =>

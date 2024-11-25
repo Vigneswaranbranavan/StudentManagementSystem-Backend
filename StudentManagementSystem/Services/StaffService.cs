@@ -10,40 +10,59 @@ namespace StudentManagementSystem.Services
     public class StaffService : IStaffService
     {
         private readonly IStaffRepository _staffRepository;
+        private readonly IUserRepository _userRepository;
+        private ITokenRepository _tokenRepository;
 
-        public StaffService(IStaffRepository staffRepository)
+        public StaffService(IStaffRepository staffRepository, IUserRepository userRepository, ITokenRepository tokenRepository)
         {
             _staffRepository = staffRepository;
+            _userRepository = userRepository;
+            _tokenRepository = tokenRepository;
         }
 
         public async Task<StaffResponse> AddStaff(StaffRequest request)
         {
-            var Staff = new Staff
+            var role = await _staffRepository.GetRoleByNameAsync("staff");
+            if (role == null)
             {
-                Id = Guid.NewGuid(),
-                Name = request.Name,
+                throw new InvalidOperationException("Role not Found");
+            }
+
+            var user = new User
+            {
                 Email = request.Email,
-                Phone = request.Phone,
-                Department = request.Department
+                Password = request.Password,
+                UserRole = new UserRole
+                {
+                    RoleID = role.ID,
+                }
             };
+            var userEntity = await _userRepository.AddUserAsync(user);
 
-
-            var StaffData = await _staffRepository.AddStaff(Staff);
-
-            var StaffResponse = new StaffResponse
+            var staff = new Staff
             {
-                Id = StaffData.Id,
-                Name = StaffData.Name,
-                Email = StaffData.Email,
-                Phone = StaffData.Phone,
-                Department = StaffData.Department
+                Id = userEntity.ID,
+                Name = request.Name,
+                Phone = request.Phone,
             };
 
-            return StaffResponse;
+            await _staffRepository.AddStaff(staff);
+
+            var token = _tokenRepository.GenerateToken(user.Email, "staff");
+
+            return new StaffResponse
+            {
+                Id = staff.Id,
+                Name = staff.Name,
+                Phone = staff.Phone,
+            };
         }
 
 
-        public async Task<List<StaffResponse>> GetStaff()
+    
+
+
+    public async Task<List<StaffResponse>> GetStaff()
         {
             var StaffData = await _staffRepository.GetStaff();
 
@@ -55,9 +74,7 @@ namespace StudentManagementSystem.Services
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    Email = item.Email,
                     Phone = item.Phone,
-                    Department = item.Department
                 };
 
                 StaffList.Add(StaffResponse);
@@ -74,9 +91,7 @@ namespace StudentManagementSystem.Services
             {
                 Id = StaffData.Id,
                 Name = StaffData.Name,
-                Email = StaffData.Email,
                 Phone = StaffData.Phone,
-                Department = StaffData.Department
             };
             return StaffResponse;
         }
@@ -90,9 +105,7 @@ namespace StudentManagementSystem.Services
             {
                 Id = StaffData.Id,
                 Name = StaffData.Name,
-                Email = StaffData.Email,
                 Phone = StaffData.Phone,
-                Department = StaffData.Department
             };
             return StaffResponse;
         }
@@ -106,9 +119,7 @@ namespace StudentManagementSystem.Services
             {
                 Id = StaffData.Id,
                 Name = StaffData.Name,
-                Email = StaffData.Email,
                 Phone = StaffData.Phone,
-                Department = StaffData.Department
             };
 
             return StaffResponse;
