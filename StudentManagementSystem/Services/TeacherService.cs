@@ -76,6 +76,11 @@ namespace StudentManagementSystem.Services
                 teacherResponse.Name = item.Name;
                 teacherResponse.Phone = item.Phone;
                 teacherResponse.SubjectID = item.SubjectID;
+                teacherResponse.Subject = new SubjectResponse
+                {
+                    ID = item.Subject.ID,
+                    SubjectName = item.Subject.SubjectName
+                };
 
                 teacherList.Add(teacherResponse);
 
@@ -93,6 +98,7 @@ namespace StudentManagementSystem.Services
             teacherResponse.Name = teacherData.Name;
             teacherResponse.Phone = teacherData.Phone;
             teacherResponse.SubjectID = teacherData.SubjectID;
+
 
             return teacherResponse;
         }
@@ -137,24 +143,20 @@ namespace StudentManagementSystem.Services
 
 
 
-        public async Task<List<TeacherResponse>> GetTeachersBySubjectId(Guid subjectId)
+        public async Task<TeacherResponse> GetTeacherBySubjectId(Guid subjectId)
         {
-            var teacherData = await _teacherRepository.GetTeachersBySubjectId(subjectId);
+            var teacherData = await _teacherRepository.GetTeacherBySubjectId(subjectId);
 
-            var teacherList = new List<TeacherResponse>();
+            
 
-            foreach (var item in teacherData)
-            {
-                var teacherResponse = new TeacherResponse();
-                teacherResponse.ID = item.ID;
-                teacherResponse.Name = item.Name;
-                teacherResponse.Phone = item.Phone;
-                teacherResponse.SubjectID = item.SubjectID;
+            var teacherResponse = new TeacherResponse();
+            teacherResponse.ID = teacherData.ID;
+            teacherResponse.Name = teacherData.Name;
+            teacherResponse.Phone = teacherData.Phone;
+            teacherResponse.SubjectID = teacherData.SubjectID;
 
-                teacherList.Add(teacherResponse);
 
-            }
-            return teacherList;
+            return teacherResponse;
         }
 
 

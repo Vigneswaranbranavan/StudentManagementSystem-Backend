@@ -31,26 +31,32 @@ namespace StudentManagementSystem.Services
                 Phone = student.Phone,
                 EnrollmentDate = student.EnrollmentDate,
                 ClassID = student.ClassID,
-                
+                Class = new ClassResponse
+                {
+                    ID = student.Class.ID,
+                    ClassName = student.Class.ClassName
+                }
+
 
             });
         }
 
         public async Task<StudentResponce> GetStudentByIdAsync(Guid id)
         {
-            var students = await _studentRepository.GetStudentByIdAsync(id);
-            if (students == null)
+            var student = await _studentRepository.GetStudentByIdAsync(id);
+            if (student == null)
             {
                 throw new KeyNotFoundException("Student not found.");
             }
 
             return new StudentResponce
             {
-                ID = students.ID,
-                Name = students.Name,
-                Phone = students.Phone,
-                EnrollmentDate = students.EnrollmentDate,
-                ClassID = students.ClassID,
+                ID = student.ID,
+                Name = student.Name,
+                Phone = student.Phone,
+                EnrollmentDate = student.EnrollmentDate,
+                ClassID = student.ClassID,
+                
             };
         }
 

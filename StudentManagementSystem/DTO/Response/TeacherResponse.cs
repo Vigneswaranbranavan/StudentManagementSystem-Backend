@@ -9,6 +9,7 @@ namespace StudentManagementSystem.DTO.Response
         public string Email { get; set; }
         public string Phone { get; set; }
         public Guid SubjectID { get; set; }
-        
+        public SubjectResponse Subject { get; set; }
+
     }
 }

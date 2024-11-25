@@ -10,5 +10,6 @@ namespace StudentManagementSystem.DTO.Response
         public string Phone { get; set; }
         public DateTime EnrollmentDate { get; set; }
         public Guid ClassID { get; set; }
+        public ClassResponse Class { get; set; }
     }
 }

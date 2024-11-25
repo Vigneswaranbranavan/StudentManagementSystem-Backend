@@ -133,12 +133,12 @@ namespace StudentManagementSystem.Controllers
 
         }
 
-        [HttpGet("GetTeachersBySubjectId")]
-        public async Task<IActionResult> GetTeachersBySubjectId(Guid id)
+        [HttpGet("GetTeacherBySubjectId")]
+        public async Task<IActionResult> GetTeacherBySubjectId(Guid id)
         {
             try
             {
-                var data = await _teacherService.GetTeachersBySubjectId(id);
+                var data = await _teacherService.GetTeacherBySubjectId(id);
                 return Ok(data);
             }
             catch (SqlException ex)

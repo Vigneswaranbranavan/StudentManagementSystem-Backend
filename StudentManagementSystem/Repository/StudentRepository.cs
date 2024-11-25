@@ -13,7 +13,7 @@ namespace StudentManagementSystem.Repository
         }
         public async Task<IEnumerable<Student>> GetAllStudentAsync()
         {
-            return await _appDbContext.Students.ToListAsync();
+            return await _appDbContext.Students.Include(i=>i.Class).ToListAsync();
         }
 
         public async Task<Student> GetStudentByIdAsync(Guid id)
