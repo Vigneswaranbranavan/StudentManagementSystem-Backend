@@ -8,7 +8,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StudentManagementSystem.Services
 {
-    public class NotificationService:INotificationService
+    public class NotificationService : INotificationService
     {
         private readonly INotificationRepository _notificationRepository;
 
@@ -115,6 +115,32 @@ namespace StudentManagementSystem.Services
             };
 
             return notifyResponse;
+        }
+
+
+
+
+        public async Task<List<NotificationResponse>> GetNotificationByUserId(Guid UserId)
+        {
+
+            var notifyData = await _notificationRepository.GetNotificationByUserId(UserId);
+
+            var notificationlist = new List<NotificationResponse>();
+
+            foreach (var item in notifyData)
+            {
+                var notificationResponse = new NotificationResponse
+                {
+                    ID = item.ID,
+                    UserID = item.UserID,
+                    NotificationType = item.NotificationType,
+                    Message = item.Message,
+                    Date = item.Date
+                };
+                notificationlist.Add(notificationResponse);
+            }
+            return notificationlist;
+
         }
 
     }
