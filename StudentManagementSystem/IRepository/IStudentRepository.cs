@@ -1,4 +1,5 @@
-﻿using StudentManagementSystem.Entities;
+﻿using StudentManagementSystem.DTO.Request;
+using StudentManagementSystem.Entities;
 
 namespace StudentManagementSystem.IRepository
 {
@@ -6,8 +7,8 @@ namespace StudentManagementSystem.IRepository
     {
         Task<IEnumerable<Student>> GetAllStudentAsync();
         Task<Student> GetStudentByIdAsync(Guid id);
-        Task AddStudentAsync(Student student);
-        Task UpdateStudentAsync(Student student);
+        Task<Student> AddStudentAsync(Student student);
+        Task<Student> UpdateStudentAsync(Guid id, StudentReqDto request);
         Task DeleteStudentAsync(Guid id);
         Task<Role> GetRoleByNameAsync(string roleName);
 

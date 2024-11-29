@@ -11,6 +11,9 @@ namespace StudentManagementSystem.Entities
         public DateTime EnrollmentDate { get; set; }
         public Guid ClassID { get; set; }
         public Class Class { get; set; }
+
+        public Guid UserID { get; set; }
+        public User User { get; set; }
         public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
 

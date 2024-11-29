@@ -6,10 +6,12 @@ namespace StudentManagementSystem.DTO.Response
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
+        //public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime EnrollmentDate { get; set; }
         public Guid ClassID { get; set; }
         public ClassResponse Class { get; set; }
+
+        public UserResponse UserRes { get; set; }
     }
 }
