@@ -68,5 +68,17 @@ namespace StudentManagementSystem.Repository
             _appDbContext.SaveChanges();
             return feedbackData;
         }
+
+
+        public async Task<List<Feedback>> GetFeedbackByUserId(Guid UserId)
+        {
+            var feedbackData = await _appDbContext.Feedbacks.Where(a => a.UserID == UserId).ToListAsync();
+            if (feedbackData == null)
+            {
+                throw new Exception("ID is Not Found");
+            }
+            return feedbackData;
+        }
+
     }
 }

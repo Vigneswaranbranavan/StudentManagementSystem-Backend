@@ -128,5 +128,35 @@ namespace StudentManagementSystem.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
+
+
+
+        [HttpGet("Get Feedback By UserId")]
+        public async Task<IActionResult> GetFeedbackByUserId(Guid UserId)
+        {
+            try
+            {
+                var data = await _feedbackService.GetFeedbackByUserId(UserId);
+                return Ok(data);
+            }
+            catch (SqlException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
+
+
 }
