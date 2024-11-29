@@ -108,11 +108,22 @@ namespace StudentManagementSystem.Controllers
             }
         }
         [HttpDelete("Feedback")]
-        public async Task<IActionResult> DeleteFeedback(Guid id)
+        public async Task<IActionResult> DeleteFeedback([FromQuery] Guid UserId)
         {
             try
             {
-                var data = await _feedbackService.DeleteFeedback(id);
+                // Ensure that UserId is being properly passed and parsed
+                if (UserId == Guid.Empty)
+                {
+                    return BadRequest("Invalid or missing feedback ID.");
+                }
+
+                var data = await _feedbackService.DeleteFeedback(UserId);
+                if (data == null)
+                {
+                    return NotFound("Feedback not found.");
+                }
+
                 return Ok(data);
             }
             catch (SqlException ex)
