@@ -21,7 +21,12 @@ namespace StudentManagementSystem.Repository
             return await _appDbContext.Students
                 .FirstOrDefaultAsync(s => s.ID == id);
         }
-
+        public async Task<List<Student>> GetStudentsByClassIdAsync(Guid classId)
+        {
+            return await _appDbContext.Students
+                .Where(s => s.ClassID == classId)
+                .ToListAsync();
+        }
         public async Task AddStudentAsync(Student student)
         {
             await _appDbContext.Students.AddAsync(student);

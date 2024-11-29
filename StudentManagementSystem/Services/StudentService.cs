@@ -120,6 +120,11 @@ namespace StudentManagementSystem.Services
             await _studentRepository.UpdateStudentAsync(student);
         }
 
+        public async Task<List<Student>> GetStudentsByClassIdAsync(Guid classId)
+        {
+            return await _studentRepository.GetStudentsByClassIdAsync(classId);
+        }
+
         public async Task DeleteStudentAsync(Guid id)
         {
             var student = await _studentRepository.GetStudentByIdAsync(id);
