@@ -10,5 +10,6 @@ namespace StudentManagementSystem.IRepository
         Task<Notification> GetNotificationById(Guid id);
         Task<Notification> UpdateNotification(Guid id, NotificationRequest request);
         Task<Notification> DeleteNotification(Guid id);
+        Task<List<Notification>> GetNotificationByUserId(Guid UserId);
     }
 }

@@ -70,5 +70,16 @@ namespace StudentManagementSystem.Repository
             _appDbContext.SaveChanges();
             return notificationData;
         }
+
+
+        public async Task<List<Notification>> GetNotificationByUserId(Guid UserId)
+        {
+            var notificationData = await _appDbContext.Notifications.Where(a => a.UserID == UserId).ToListAsync();
+            if (notificationData == null)
+            {
+                throw new Exception("UserId is Not Found");
+            }
+            return notificationData;
+        }
     }
 }

@@ -7,6 +7,8 @@
         public string Phone { get; set; }
         public Guid SubjectID { get; set; }
         public Subject Subject { get; set; }
+        public Guid UserID { get; set; }
+        public User User { get; set; }
         public ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
     }
 }

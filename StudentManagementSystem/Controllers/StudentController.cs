@@ -33,6 +33,18 @@ namespace StudentManagementSystem.Controllers
                 return NotFound();
             return Ok(student);
         }
+        [HttpGet("class/{classId}")]
+        public async Task<IActionResult> GetStudentsByClassId(Guid classId)
+        {
+            var students = await _studentService.GetStudentsByClassIdAsync(classId);
+
+            if (students == null || students.Count == 0)
+            {
+                return NotFound(new { message = "No students found for the specified class." });
+            }
+
+            return Ok(students);
+        }
 
         [HttpPost]
         public async Task<ActionResult> AddStudent(StudentRequest studentRequest)
@@ -42,10 +54,10 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateStudent(Guid id, StudentRequest studentRequest)
+        public async Task<IActionResult> UpdateStudent(Guid id, StudentReqDto studentRequest)
         {
-            await _studentService.UpdateStudentAsync(id, studentRequest);
-            return NoContent();
+           var data= await _studentService.UpdateStudentAsync(id, studentRequest);
+            return Ok(data);
         }
 
         [HttpDelete("{id}")]

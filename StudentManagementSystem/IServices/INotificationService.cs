@@ -11,6 +11,7 @@ namespace StudentManagementSystem.IServices
         Task<NotificationResponse> GetNotificationById(Guid id);
         Task<NotificationResponse> UpdateNotification(Guid id, NotificationRequest request);
         Task<NotificationResponse> DeleteNotification(Guid id);
+        Task<List<NotificationResponse>> GetNotificationByUserId(Guid UserId);
 
     }
 }

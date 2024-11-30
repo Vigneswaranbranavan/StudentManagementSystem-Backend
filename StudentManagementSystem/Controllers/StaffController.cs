@@ -22,8 +22,8 @@ namespace StudentManagementSystem.Controllers
         {
             try
             {
-                var ReturnData = await _staffService.AddStaff(request);
-                return Ok(ReturnData);
+                var createStaff = await _staffService.AddStaffAsync(request);
+                return CreatedAtAction(nameof(GetStaffById), new { id = createStaff.Id }, createStaff);
             }
             catch (SqlException ex)
             {
@@ -45,7 +45,7 @@ namespace StudentManagementSystem.Controllers
         {
             try
             {
-                var data = await _staffService.GetStaff();
+                var data = await _staffService.GetStaffs();
                 return Ok(data);
             }
             catch (SqlException ex)
@@ -88,7 +88,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPut("Staff")]
-        public async Task<IActionResult> UpdateStaff(Guid Id, StaffRequest request)
+        public async Task<IActionResult> UpdateStaff(Guid Id, StaffReqDto request)
         {
             try
             {

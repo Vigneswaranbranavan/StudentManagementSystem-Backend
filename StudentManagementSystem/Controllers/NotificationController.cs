@@ -131,5 +131,29 @@ namespace StudentManagementSystem.Controllers
             }
         }
 
+
+        [HttpGet("Get Notification By UserId")]
+        public async Task<IActionResult> GetNotificationByUserId(Guid UserId)
+        {
+            try
+            {
+                var data = await _notificationService.GetNotificationByUserId(UserId);
+                return Ok(data);
+            }
+            catch (SqlException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }

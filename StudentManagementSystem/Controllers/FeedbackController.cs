@@ -108,11 +108,22 @@ namespace StudentManagementSystem.Controllers
             }
         }
         [HttpDelete("Feedback")]
-        public async Task<IActionResult> DeleteFeedback(Guid id)
+        public async Task<IActionResult> DeleteFeedback([FromQuery] Guid UserId)
         {
             try
             {
-                var data = await _feedbackService.DeleteFeedback(id);
+                // Ensure that UserId is being properly passed and parsed
+                if (UserId == Guid.Empty)
+                {
+                    return BadRequest("Invalid or missing feedback ID.");
+                }
+
+                var data = await _feedbackService.DeleteFeedback(UserId);
+                if (data == null)
+                {
+                    return NotFound("Feedback not found.");
+                }
+
                 return Ok(data);
             }
             catch (SqlException ex)
@@ -128,5 +139,35 @@ namespace StudentManagementSystem.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
+
+
+
+        [HttpGet("Get Feedback By UserId")]
+        public async Task<IActionResult> GetFeedbackByUserId(Guid UserId)
+        {
+            try
+            {
+                var data = await _feedbackService.GetFeedbackByUserId(UserId);
+                return Ok(data);
+            }
+            catch (SqlException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
+
+
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudentManagementSystem.DTO.Request;
 using StudentManagementSystem.Entities;
 using StudentManagementSystem.IRepository;
 
@@ -13,7 +14,7 @@ namespace StudentManagementSystem.Repository
         }
         public async Task<IEnumerable<Student>> GetAllStudentAsync()
         {
-            return await _appDbContext.Students.ToListAsync();
+            return await _appDbContext.Students.Include(i=>i.Class).Include(i => i.User).ToListAsync();
         }
 
         public async Task<Student> GetStudentByIdAsync(Guid id)
@@ -22,32 +23,39 @@ namespace StudentManagementSystem.Repository
                 .FirstOrDefaultAsync(s => s.ID == id);
         }
 
-        public async Task AddStudentAsync(Student student)
+        public async Task<List<Student>> GetStudentsByClassIdAsync(Guid classId)
+        {
+            return await _appDbContext.Students
+                .Where(s => s.ClassID == classId)
+                .ToListAsync();
+        }
+
+
+        public async Task<Student> AddStudentAsync(Student student)
+
         {
             await _appDbContext.Students.AddAsync(student);
             await _appDbContext.SaveChangesAsync();
+            return student;
         }
 
-        public async Task UpdateStudentAsync(Student student)
+
+        public async Task<Student> UpdateStudentAsync(Guid id, StudentReqDto request)
         {
-
-            var existingStudents = await _appDbContext.Students.FindAsync(student.ID);
-            if (existingStudents != null)
+            var studentData = await _appDbContext.Students.FindAsync(id);
+            if (studentData == null)
             {
-                existingStudents.Name = student.Name;
-                existingStudents.Phone = student.Phone;
-                existingStudents.EnrollmentDate = student.EnrollmentDate;
-                existingStudents.ClassID = student.ClassID;
-
-                await _appDbContext.SaveChangesAsync();
-
+                throw new Exception("ID is Not Found");
             }
 
-            else
-            {
-                throw new KeyNotFoundException("Student not found");
-            }
+            studentData.Name = request.Name;
+            studentData.Phone = request.Phone;
+            studentData.ClassID = request.ClassID;
+
+            _appDbContext.SaveChanges();
+            return studentData;
         }
+
 
         public async Task DeleteStudentAsync(Guid id)
         {

@@ -21,9 +21,9 @@ namespace StudentManagementSystem.Repository
         }
 
 
-        public async Task<List<Staff>> GetStaff()
+        public async Task<IEnumerable<Staff>> GetStaffs()
         {
-            var StaffData = await _appDbContext.Staff.ToListAsync();
+            var StaffData = await _appDbContext.Staff.Include(i => i.User).ToListAsync();
             return StaffData;
 
         }
@@ -40,7 +40,7 @@ namespace StudentManagementSystem.Repository
 
         }
 
-        public async Task<Staff> UpdateStaff(Guid id, StaffRequest request)
+        public async Task<Staff> UpdateStaff(Guid id, StaffReqDto request)
         {
             var StaffData = await _appDbContext.Staff.FindAsync(id);
             if (StaffData == null)
