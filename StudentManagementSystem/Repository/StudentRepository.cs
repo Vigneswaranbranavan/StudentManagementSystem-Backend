@@ -29,7 +29,6 @@ namespace StudentManagementSystem.Repository
                 .Where(s => s.ClassID == classId)
                 .ToListAsync();
         }
-        public async Task AddStudentAsync(Student student)
 
 
         public async Task<Student> AddStudentAsync(Student student)
