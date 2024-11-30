@@ -5,10 +5,10 @@ namespace StudentManagementSystem.IServices
 {
     public interface IStaffService
     {
-        Task<StaffResponse> AddStaff(StaffRequest request);
-        Task<List<StaffResponse>> GetStaff();
+        Task<StaffResponse> AddStaffAsync(StaffRequest request);
+        Task<IEnumerable<StaffResponse>> GetStaffs();
         Task<StaffResponse> GetStaffById(Guid id);
-        Task<StaffResponse> UpdateStaff(Guid id, StaffRequest request);
+        Task<StaffResponse> UpdateStaff(Guid id, StaffReqDto request);
         Task<StaffResponse> DeleteStaff(Guid id);
     }
 }

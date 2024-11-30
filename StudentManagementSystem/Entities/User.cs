@@ -11,5 +11,9 @@ namespace StudentManagementSystem.Entities
         public string Password { get; set; }
         public UserRole UserRole { get; set; }
 
+        public ICollection<Student> Students { get; set; }
+        public ICollection<Staff> Staffs { get; set; }
+        public ICollection<Teacher> Teachers { get; set; }
+
     }
 }

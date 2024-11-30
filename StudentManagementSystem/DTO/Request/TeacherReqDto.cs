@@ -1,10 +1,9 @@
 ﻿namespace StudentManagementSystem.DTO.Request
 {
-    public class StaffRequest
+    public class TeacherReqDto
     {
         public string Name { get; set; }
         public string Phone { get; set; }
-
-        public UserRequest UserReq { get; set; }
+        public Guid SubjectID { get; set; }
     }
 }

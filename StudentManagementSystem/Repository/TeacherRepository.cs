@@ -23,9 +23,9 @@ namespace StudentManagementSystem.Repository
         }
 
 
-        public async Task<List<Teacher>> GetTeachers()
+        public async Task<IEnumerable<Teacher>> GetTeachers()
         {
-            var teacherData = await _appDbContext.Teachers.ToListAsync();
+            var teacherData = await _appDbContext.Teachers.Include(i => i.Subject).Include(i => i.User).ToListAsync();
             return teacherData;
 
         }
@@ -42,7 +42,7 @@ namespace StudentManagementSystem.Repository
 
         }
 
-        public async Task<Teacher> UpdateTeacher(Guid id, TeacherRequest teacherRequest)
+        public async Task<Teacher> UpdateTeacher(Guid id, TeacherReqDto teacherRequest)
         {
             var teacherData = await _appDbContext.Teachers.FindAsync(id);
             if (teacherData == null)
@@ -71,14 +71,14 @@ namespace StudentManagementSystem.Repository
         }
 
 
-        public async Task<List<Teacher>> GetTeachersBySubjectId(Guid subjectId)
+        public async Task<Teacher> GetTeacherBySubjectId(Guid subjectId)
         {
-            var teachers = await _appDbContext.Teachers.Where(t => t.SubjectID == subjectId).ToListAsync();
-            if (teachers == null)
+            var teacher = await _appDbContext.Teachers.Include(t => t.Subject).FirstOrDefaultAsync(t => t.SubjectID == subjectId);
+            if (teacher == null)
             {
                 throw new Exception("ID is Not Found");
             }
-            return teachers;
+            return teacher;
         }
 
         public async Task<Teacher> DeleteTeacher(Guid id)

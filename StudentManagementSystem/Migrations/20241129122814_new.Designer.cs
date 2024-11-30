@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem;
 
@@ -11,9 +12,11 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241129122814_new")]
+    partial class @new
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,22 +156,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("03ca4c85-3e60-483d-b64e-1063c01d3307"),
+                            ID = new Guid("6d0399b2-81ce-4300-89f0-317e60a05288"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("b43e77d6-b867-4ee2-85d1-302d10d8ea12"),
+                            ID = new Guid("fe348af4-47f9-4f31-8f83-b04792944183"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("07794888-6726-4c45-a77e-754686176706"),
+                            ID = new Guid("d17b721e-1aca-403c-bfd9-49e3a8a61e72"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("17694eb4-cbc7-4d8c-8e1a-dc8cdf2ad7b3"),
+                            ID = new Guid("c043e6d5-a4a3-4468-91de-f3ac4855fa5e"),
                             RoleName = "student"
                         });
                 });
