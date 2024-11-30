@@ -10,5 +10,6 @@ namespace StudentManagementSystem.IServices
         Task<FeedbackResponse> GetFeedbackById(Guid id);
         Task<FeedbackResponse> UpdateFeedback(Guid id, FeedbackRequest request);
         Task<FeedbackResponse> DeleteFeedback(Guid id);
+        Task<List<FeedbackResponse>> GetFeedbackByUserId(Guid UserId);
     }
 }

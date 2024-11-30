@@ -10,5 +10,6 @@ namespace StudentManagementSystem.IRepository
         Task<Feedback> GetFeedbackById(Guid id);
         Task<Feedback> UpdateFeedback(Guid id, FeedbackRequest request);
         Task<Feedback> DeleteFeedback(Guid id);
+        Task<List<Feedback>> GetFeedbackByUserId(Guid UserId);
     }
 }

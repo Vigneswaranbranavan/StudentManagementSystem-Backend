@@ -114,5 +114,30 @@ namespace StudentManagementSystem.Services
             return feedbackResponse;
         }
 
+
+        public async Task<List<FeedbackResponse>> GetFeedbackByUserId(Guid UserId)
+        {
+
+            var feedbackData = await _feedbackRepository.GetFeedbackByUserId(UserId);
+
+            var feedbcklist = new List<FeedbackResponse>();
+
+            foreach (var item in feedbackData)
+            {
+                var feedbackResponse = new FeedbackResponse
+                {
+                    ID= item.ID,
+                    UserID = item.UserID,
+                    FeedbackType = item.FeedbackType,
+                    Comments = item.Comments
+
+                };
+
+                feedbcklist.Add(feedbackResponse);
+
+            }
+            return feedbcklist;
+
+        }
     }
 }
