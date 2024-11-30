@@ -1,4 +1,6 @@
-﻿namespace StudentManagementSystem.DTO.Request
+﻿using StudentManagementSystem.Entities;
+
+namespace StudentManagementSystem.DTO.Request
 {
     public class AttendanceRequest
     {
@@ -6,6 +8,6 @@
 
 
         public DateTime Date { get; set; }
-        public string Status { get; set; }
+        public AttendanceStatus Status { get; set; }
     }
 }

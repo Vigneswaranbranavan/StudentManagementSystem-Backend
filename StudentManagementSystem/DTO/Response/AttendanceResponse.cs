@@ -9,6 +9,6 @@ namespace StudentManagementSystem.DTO.Response
         
         
         public DateTime Date { get; set; }
-        public string Status { get; set; }
+        public AttendanceStatus Status { get; set; }
     }
 }
