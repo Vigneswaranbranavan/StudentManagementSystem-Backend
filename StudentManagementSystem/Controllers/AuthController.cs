@@ -27,9 +27,30 @@ namespace StudentManagementSystem.Controllers
             {
                 return BadRequest("Email and Password are required.");
             }
+           
 
             try
             {
+                const string adminEmail = "admin@gmail.com";
+                const string adminPassword = "admin@123";
+
+                if(userRequest.Email.Equals(adminEmail,StringComparison.OrdinalIgnoreCase) &&
+                    userRequest.Password == adminPassword)
+                {
+                    var adminToken = _tokenRepository.GenerateToken(adminEmail, "admin");
+                    return Ok(new
+                    {
+                        Token = adminToken,
+                        User = new
+                        {
+                            Email = adminEmail,
+                            Role = "admin"
+                        }
+                    });
+                }
+
+
+
                 var (token, user) = await _userService.Authenticate(userRequest.Email, userRequest.Password);
                 return Ok(new
                 {
