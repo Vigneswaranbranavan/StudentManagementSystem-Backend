@@ -54,10 +54,10 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateStudent(Guid id, StudentRequest studentRequest)
+        public async Task<IActionResult> UpdateStudent(Guid id, StudentReqDto studentRequest)
         {
-            await _studentService.UpdateStudentAsync(id, studentRequest);
-            return NoContent();
+           var data= await _studentService.UpdateStudentAsync(id, studentRequest);
+            return Ok(data);
         }
 
         [HttpDelete("{id}")]
