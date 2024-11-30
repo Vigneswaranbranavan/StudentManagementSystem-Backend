@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using StudentManagementSystem.DTO.Request;
 using StudentManagementSystem.IServices;
+using StudentManagementSystem.Services;
 
 namespace StudentManagementSystem.Controllers
 {
@@ -21,8 +22,8 @@ namespace StudentManagementSystem.Controllers
         {
             try
             {
-                var ReturnData = await _teacherService.AddTeacher(teacherRequest);
-                return Ok(ReturnData);
+                var createTeacher = await _teacherService.AddTeacherAsync(teacherRequest);
+                return CreatedAtAction(nameof(GetTeacherById), new { id = createTeacher.ID }, createTeacher);
             }
             catch (SqlException ex)
             {
@@ -87,7 +88,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPut("Teacher")]
-        public async Task<IActionResult> UpdateTeacher(Guid Id, TeacherRequest request)
+        public async Task<IActionResult> UpdateTeacher(Guid Id, TeacherReqDto request)
         {
             try
             {

@@ -6,9 +6,9 @@ namespace StudentManagementSystem.IRepository
     public interface IStaffRepository
     {
         Task<Staff> AddStaff(Staff Staff);
-        Task<List<Staff>> GetStaff();
+        Task<IEnumerable<Staff>> GetStaffs();
         Task<Staff> GetStaffById(Guid id);
-        Task<Staff> UpdateStaff(Guid id, StaffRequest request);
+        Task<Staff> UpdateStaff(Guid id, StaffReqDto request);
         Task<Staff> DeleteStaff(Guid id);
         Task<Role> GetRoleByNameAsync(string roleName);
     }

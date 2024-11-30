@@ -12,8 +12,8 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241129104755_plzgiveMe")]
-    partial class plzgiveMe
+    [Migration("20241130044007_hhhh")]
+    partial class hhhh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,22 +156,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("79b9f207-9e54-4b65-9820-b95bf1fbcfec"),
+                            ID = new Guid("03ca4c85-3e60-483d-b64e-1063c01d3307"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("028cf811-2d74-46b1-abf4-2edf9f71105b"),
+                            ID = new Guid("b43e77d6-b867-4ee2-85d1-302d10d8ea12"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("897eb3db-52b8-4d25-82d1-beffea29ce34"),
+                            ID = new Guid("07794888-6726-4c45-a77e-754686176706"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("d3f16caa-9d8b-42ff-b62a-c7a21c4454af"),
+                            ID = new Guid("17694eb4-cbc7-4d8c-8e1a-dc8cdf2ad7b3"),
                             RoleName = "student"
                         });
                 });
@@ -190,7 +190,12 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Staff");
                 });
@@ -259,9 +264,14 @@ namespace StudentManagementSystem.Migrations
                     b.Property<Guid>("SubjectID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("ID");
 
                     b.HasIndex("SubjectID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Teachers");
                 });
@@ -392,6 +402,17 @@ namespace StudentManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("StudentManagementSystem.Entities.Staff", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Entities.User", "User")
+                        .WithMany("Staffs")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("StudentManagementSystem.Entities.Student", b =>
                 {
                     b.HasOne("StudentManagementSystem.Entities.Class", "Class")
@@ -419,7 +440,15 @@ namespace StudentManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("StudentManagementSystem.Entities.User", "User")
+                        .WithMany("Teachers")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Subject");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Timetable", b =>
@@ -497,7 +526,11 @@ namespace StudentManagementSystem.Migrations
 
             modelBuilder.Entity("StudentManagementSystem.Entities.User", b =>
                 {
+                    b.Navigation("Staffs");
+
                     b.Navigation("Students");
+
+                    b.Navigation("Teachers");
 
                     b.Navigation("UserRole")
                         .IsRequired();

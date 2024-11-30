@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class plzgiveMe : Migration
+    public partial class hhhh : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,32 +16,32 @@ namespace StudentManagementSystem.Migrations
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "ID",
-                keyValue: new Guid("22f7734c-2d57-47a0-9e75-a3e4ac5d1051"));
+                keyValue: new Guid("6d0399b2-81ce-4300-89f0-317e60a05288"));
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "ID",
-                keyValue: new Guid("9739e547-e55a-4661-8398-2d4212571532"));
+                keyValue: new Guid("c043e6d5-a4a3-4468-91de-f3ac4855fa5e"));
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "ID",
-                keyValue: new Guid("99f6cbd5-c1ca-47f0-b49c-fa24d121b933"));
+                keyValue: new Guid("d17b721e-1aca-403c-bfd9-49e3a8a61e72"));
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "ID",
-                keyValue: new Guid("bd94c611-1a78-48d2-bcec-9acf05aa7a19"));
+                keyValue: new Guid("fe348af4-47f9-4f31-8f83-b04792944183"));
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "ID", "RoleName" },
                 values: new object[,]
                 {
-                    { new Guid("028cf811-2d74-46b1-abf4-2edf9f71105b"), "staff" },
-                    { new Guid("79b9f207-9e54-4b65-9820-b95bf1fbcfec"), "administrator" },
-                    { new Guid("897eb3db-52b8-4d25-82d1-beffea29ce34"), "teacher" },
-                    { new Guid("d3f16caa-9d8b-42ff-b62a-c7a21c4454af"), "student" }
+                    { new Guid("03ca4c85-3e60-483d-b64e-1063c01d3307"), "administrator" },
+                    { new Guid("07794888-6726-4c45-a77e-754686176706"), "teacher" },
+                    { new Guid("17694eb4-cbc7-4d8c-8e1a-dc8cdf2ad7b3"), "student" },
+                    { new Guid("b43e77d6-b867-4ee2-85d1-302d10d8ea12"), "staff" }
                 });
         }
 
@@ -51,32 +51,32 @@ namespace StudentManagementSystem.Migrations
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "ID",
-                keyValue: new Guid("028cf811-2d74-46b1-abf4-2edf9f71105b"));
+                keyValue: new Guid("03ca4c85-3e60-483d-b64e-1063c01d3307"));
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "ID",
-                keyValue: new Guid("79b9f207-9e54-4b65-9820-b95bf1fbcfec"));
+                keyValue: new Guid("07794888-6726-4c45-a77e-754686176706"));
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "ID",
-                keyValue: new Guid("897eb3db-52b8-4d25-82d1-beffea29ce34"));
+                keyValue: new Guid("17694eb4-cbc7-4d8c-8e1a-dc8cdf2ad7b3"));
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "ID",
-                keyValue: new Guid("d3f16caa-9d8b-42ff-b62a-c7a21c4454af"));
+                keyValue: new Guid("b43e77d6-b867-4ee2-85d1-302d10d8ea12"));
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "ID", "RoleName" },
                 values: new object[,]
                 {
-                    { new Guid("22f7734c-2d57-47a0-9e75-a3e4ac5d1051"), "staff" },
-                    { new Guid("9739e547-e55a-4661-8398-2d4212571532"), "administrator" },
-                    { new Guid("99f6cbd5-c1ca-47f0-b49c-fa24d121b933"), "student" },
-                    { new Guid("bd94c611-1a78-48d2-bcec-9acf05aa7a19"), "teacher" }
+                    { new Guid("6d0399b2-81ce-4300-89f0-317e60a05288"), "administrator" },
+                    { new Guid("c043e6d5-a4a3-4468-91de-f3ac4855fa5e"), "student" },
+                    { new Guid("d17b721e-1aca-403c-bfd9-49e3a8a61e72"), "teacher" },
+                    { new Guid("fe348af4-47f9-4f31-8f83-b04792944183"), "staff" }
                 });
         }
     }
