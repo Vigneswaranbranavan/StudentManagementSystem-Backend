@@ -169,7 +169,11 @@ namespace StudentManagementSystem.Services
             teacherResponse.Name = teacherData.Name;
             teacherResponse.Phone = teacherData.Phone;
             teacherResponse.SubjectID = teacherData.SubjectID;
-
+            teacherResponse.Subject = new SubjectResponse
+            {
+                ID = teacherData.Subject.ID,
+                SubjectName = teacherData.Subject.SubjectName
+            };
 
             return teacherResponse;
         }

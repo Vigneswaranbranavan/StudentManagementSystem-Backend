@@ -10,6 +10,7 @@ namespace StudentManagementSystem.DTO.Response
         public Guid SubjectID { get; set; }
         public SubjectResponse Subject { get; set; }
         public UserResponse UserRes { get; set; }
+        public SubjectResponse subject { get; set; }
 
     }
 }
