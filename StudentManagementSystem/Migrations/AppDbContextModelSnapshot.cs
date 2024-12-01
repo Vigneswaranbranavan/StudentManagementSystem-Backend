@@ -152,22 +152,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("d23ec7ba-7b99-4058-8e0e-0f741075bfa9"),
+                            ID = new Guid("d386cf23-8f0e-4388-a700-968f0d692618"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("a405a5b0-beb6-4720-ad64-1d09c34ba109"),
+                            ID = new Guid("d1e0b20a-ecf4-48da-a67e-3df5b92d6043"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("1d96d68c-c66f-4601-98ad-dda5de89119e"),
+                            ID = new Guid("cd8971d0-1649-4a40-a126-c507c0308b09"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("138ccdc5-aebb-48e8-9f48-fe97a487660d"),
+                            ID = new Guid("946350d4-8c53-4581-bbc0-fadd2e9a4eec"),
                             RoleName = "student"
                         });
                 });

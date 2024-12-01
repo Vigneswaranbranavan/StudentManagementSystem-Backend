@@ -29,9 +29,9 @@ namespace StudentManagementSystem.Controllers
                 var response = await _attendanceService.AddAttendance(request);
                 return CreatedAtAction(nameof(GetAttendanceById), new { id = response.ID }, response);
             }
-            catch (KeyNotFoundException ex)
+            catch (InvalidCastException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest("Invalid data format: " + ex.Message);
             }
             catch (SqlException ex)
             {
@@ -49,21 +49,24 @@ namespace StudentManagementSystem.Controllers
             try
             {
                 var data = await _attendanceService.GetAttendance();
+                if (data == null || data.Count == 0)
+                {
+                    return NotFound("No attendance records found.");
+                }
                 return Ok(data);
             }
             catch (SqlException ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database error: {ex.Message}");
             }
             catch (ArgumentNullException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest($"Bad request: {ex.Message}");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal Server Error: {ex.Message}");
             }
-
         }
 
 

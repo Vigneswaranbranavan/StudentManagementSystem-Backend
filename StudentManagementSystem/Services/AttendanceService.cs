@@ -46,6 +46,8 @@ namespace StudentManagementSystem.Services
         {
             var attendanceData = await _attendanceRepository.GetAttendance();
 
+            Console.WriteLine($"Attendance records fetched: {attendanceData.Count} records.");
+
             var attendanceList = new List<AttendanceResponse>();
 
             foreach (var item in attendanceData)
@@ -59,10 +61,10 @@ namespace StudentManagementSystem.Services
                 };
 
                 attendanceList.Add(attendanceResponse);
-
             }
             return attendanceList;
         }
+
 
 
         public async Task<AttendanceResponse> GetAttendanceById(Guid id)

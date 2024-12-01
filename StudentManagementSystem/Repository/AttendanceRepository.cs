@@ -23,10 +23,12 @@ namespace StudentManagementSystem.Repository
 
         public async Task<List<Attendance>> GetAttendance()
         {
-            var attendanceData = await _appDbContext.Attendances.ToListAsync();
+            var attendanceData = await _appDbContext.Attendances
+                .Include(a => a.Student) 
+                .ToListAsync();
             return attendanceData;
-
         }
+
 
         public async Task<Attendance> GetAttendanceById(Guid id)
         {
