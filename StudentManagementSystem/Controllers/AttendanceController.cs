@@ -19,7 +19,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAttendance([FromBody] AttendanceRequest request)
+        public async Task<IActionResult> AddAttendance( ICollection<AttendanceRequest> request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -27,7 +27,7 @@ namespace StudentManagementSystem.Controllers
             try
             {
                 var response = await _attendanceService.AddAttendance(request);
-                return CreatedAtAction(nameof(GetAttendanceById), new { id = response.ID }, response);
+                return Ok(response);
             }
             catch (InvalidCastException ex)
             {

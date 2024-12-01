@@ -17,26 +17,26 @@ namespace StudentManagementSystem.Services
             _attendanceRepository = attendanceRepository;
         }
 
-        public async Task<AttendanceResponse> AddAttendance(AttendanceRequest request)
+        public async Task<ICollection<AttendanceResponse>> AddAttendance(ICollection<AttendanceRequest> request)
         {
-            var attendance = new Attendance
+            var attendance = request.Select(a => new Attendance()
             {
                 ID = Guid.NewGuid(),
-                StudentID = request.StudentID,
-                Date = request.Date,
-                Status = request.Status
-            };
+                StudentID = a.StudentID,
+                Date = a.Date,
+                Status = a.Status
+            }).ToList();
 
 
             var attendanceData = await _attendanceRepository.AddAttendance(attendance);
 
-            var attendanceResponse = new AttendanceResponse
+            var attendanceResponse = attendanceData.Select(a => new AttendanceResponse
             {
-                ID = attendanceData.ID,
-                StudentID = attendanceData.StudentID,
-                Date = attendanceData.Date,
-                Status = attendanceData.Status
-            };
+                ID = a.ID,
+                StudentID = a.StudentID,
+                Date = a.Date,
+                Status = a.Status
+            }).ToList();
 
             return attendanceResponse;
         }

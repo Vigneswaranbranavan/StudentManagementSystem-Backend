@@ -13,9 +13,9 @@ namespace StudentManagementSystem.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task<Attendance> AddAttendance(Attendance attendance)
+        public async Task<ICollection<Attendance>> AddAttendance(ICollection<Attendance> attendance)
         {
-            await _appDbContext.Attendances.AddAsync(attendance);
+            await _appDbContext.Attendances.AddRangeAsync(attendance);
             await _appDbContext.SaveChangesAsync();
             return attendance;
         }
