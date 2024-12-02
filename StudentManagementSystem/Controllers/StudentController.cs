@@ -66,5 +66,22 @@ namespace StudentManagementSystem.Controllers
             await _studentService.DeleteStudentAsync(id);
             return NoContent();
         }
+
+
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<StudentResponce>> GetStudentByUserId(Guid userId)
+        {
+            try
+            {
+                var student = await _studentService.GetStudentByUserIdAsync(userId);
+                return Ok(student);  // The response now includes the Class details
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Student not found for the provided UserID." });
+            }
+        }
+
     }
 }

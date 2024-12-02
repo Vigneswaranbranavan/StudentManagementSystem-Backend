@@ -13,5 +13,6 @@ namespace StudentManagementSystem.IRepository
         Task<Teacher> GetTeacherBySubjectId(Guid subjectId);
         Task<Teacher> DeleteTeacher(Guid id);
         Task<Role> GetRoleByNameAsync(string roleName);
+        Task<Teacher> GetTeacherByUserIdAsync(Guid userId);
     }
 }

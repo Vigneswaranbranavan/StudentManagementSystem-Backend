@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using StudentManagementSystem.DTO.Request;
+using StudentManagementSystem.DTO.Response;
 using StudentManagementSystem.IServices;
 using StudentManagementSystem.Services;
 
@@ -176,6 +177,22 @@ namespace StudentManagementSystem.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<StudentResponce>> geGetTeacherByUserIdAsync(Guid userId)
+        {
+            try
+            {
+                var student = await _teacherService.GetTeacherByUserIdAsync(userId);
+                return Ok(student);  // The response now includes the Class details
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Student not found for the provided UserID." });
             }
         }
     }
