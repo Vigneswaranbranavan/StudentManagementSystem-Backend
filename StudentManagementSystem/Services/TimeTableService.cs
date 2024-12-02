@@ -175,6 +175,17 @@ namespace StudentManagementSystem.Services
                     Date = item.Date,
                     StartTime = item.StartTime,
                     EndTime = item.EndTime,
+                    Class = new ClassResponse
+                    {
+                        ID =item.Class.ID,
+                        ClassName = item.Class.ClassName
+                       
+                    },
+                    TeacherSubject = new TeacherResponse
+                    {
+                        ID=item.Teacher.Subject.ID,
+                        Name= item.Teacher.Subject.SubjectName
+                    }
 
                 };
 
