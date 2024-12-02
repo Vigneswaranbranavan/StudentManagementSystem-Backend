@@ -18,55 +18,59 @@ namespace StudentManagementSystem.Controllers
             _attendanceService = attendanceService;
         }
 
-        [Authorize]
-        [HttpPost("Attendance")]
-        public async Task<IActionResult> AddAttendance(AttendanceRequest request)
+        [HttpPost]
+        public async Task<IActionResult> AddAttendance( ICollection<AttendanceRequest> request)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
-                var ReturnData = await _attendanceService.AddAttendance(request);
-                return Ok(ReturnData);
+                var response = await _attendanceService.AddAttendance(request);
+                return Ok(response);
+            }
+            catch (InvalidCastException ex)
+            {
+                return BadRequest("Invalid data format: " + ex.Message);
             }
             catch (SqlException ex)
             {
-                return BadRequest(ex.Message);
-            }
-            catch (ArgumentNullException ex)
-            {
-                return NotFound(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
         }
 
-        [HttpGet("Attendance")]
+        [HttpGet]
         public async Task<IActionResult> GetAttendance()
         {
             try
             {
                 var data = await _attendanceService.GetAttendance();
+                if (data == null || data.Count == 0)
+                {
+                    return NotFound("No attendance records found.");
+                }
                 return Ok(data);
             }
             catch (SqlException ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database error: {ex.Message}");
             }
             catch (ArgumentNullException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest($"Bad request: {ex.Message}");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal Server Error: {ex.Message}");
             }
-
         }
 
 
-        [HttpGet("AttendanceById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetAttendanceById(Guid id)
         {
             try
@@ -89,27 +93,31 @@ namespace StudentManagementSystem.Controllers
 
         }
 
-        [HttpPut("Attendance")]
-        public async Task<IActionResult> UpdateAttendance(Guid Id, AttendanceRequest request)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAttendance(Guid id, [FromBody] AttendanceRequest request)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
-                var data = await _attendanceService.UpdateAttendance(Id, request);
-                return Ok(data);
+                var response = await _attendanceService.UpdateAttendance(id, request);
+                return Ok(response);
             }
-            catch (SqlException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (ArgumentNullException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
 
 
         [HttpDelete("Attendance")]

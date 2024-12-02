@@ -19,20 +19,21 @@ namespace StudentManagementSystem.Services
         }
 
 
-        public  async Task<(string Token,User user)> Authenticate(string email, string password)
+        public async Task<(string Token, User user)> Authenticate(string email, string password)
         {
             var user = await _userRepository.GetUserByEmailAsync(email);
-            if(user == null)
+            if (user == null)
             {
                 throw new Exception("User Not Found");
             }
 
             var role = user.UserRole?.Role?.RoleName ?? throw new Exception("User role not found");
 
-            var token =  _tokenRepository.GenerateToken(user.Email, role);
+            var token = _tokenRepository.GenerateToken(user);  
 
-            return (token,user);
+            return (token, user);
         }
+
 
     }
 }

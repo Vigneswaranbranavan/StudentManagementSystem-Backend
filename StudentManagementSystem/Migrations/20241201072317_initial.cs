@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class @new : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -229,7 +229,7 @@ namespace StudentManagementSystem.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StudentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     ClassID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -287,10 +287,10 @@ namespace StudentManagementSystem.Migrations
                 columns: new[] { "ID", "RoleName" },
                 values: new object[,]
                 {
-                    { new Guid("6d0399b2-81ce-4300-89f0-317e60a05288"), "administrator" },
-                    { new Guid("c043e6d5-a4a3-4468-91de-f3ac4855fa5e"), "student" },
-                    { new Guid("d17b721e-1aca-403c-bfd9-49e3a8a61e72"), "teacher" },
-                    { new Guid("fe348af4-47f9-4f31-8f83-b04792944183"), "staff" }
+                    { new Guid("946350d4-8c53-4581-bbc0-fadd2e9a4eec"), "student" },
+                    { new Guid("cd8971d0-1649-4a40-a126-c507c0308b09"), "teacher" },
+                    { new Guid("d1e0b20a-ecf4-48da-a67e-3df5b92d6043"), "staff" },
+                    { new Guid("d386cf23-8f0e-4388-a700-968f0d692618"), "administrator" }
                 });
 
             migrationBuilder.CreateIndex(

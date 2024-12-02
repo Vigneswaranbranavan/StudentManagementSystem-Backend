@@ -5,7 +5,7 @@ namespace StudentManagementSystem.IRepository
 {
     public interface IAttendanceRepository
     {
-        Task<Attendance> AddAttendance(Attendance attendance);
+        Task<ICollection<Attendance>> AddAttendance(ICollection<Attendance> attendance);
         Task<List<Attendance>> GetAttendance();
         Task<Attendance> GetAttendanceById(Guid id);
         Task<Attendance> UpdateAttendance(Guid id, AttendanceRequest request);
