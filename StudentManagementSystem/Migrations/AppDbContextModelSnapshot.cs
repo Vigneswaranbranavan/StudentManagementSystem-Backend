@@ -34,9 +34,8 @@ namespace StudentManagementSystem.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("StudentID")
                         .HasColumnType("uniqueidentifier");
@@ -153,22 +152,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("03ca4c85-3e60-483d-b64e-1063c01d3307"),
+                            ID = new Guid("d386cf23-8f0e-4388-a700-968f0d692618"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("b43e77d6-b867-4ee2-85d1-302d10d8ea12"),
+                            ID = new Guid("d1e0b20a-ecf4-48da-a67e-3df5b92d6043"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("07794888-6726-4c45-a77e-754686176706"),
+                            ID = new Guid("cd8971d0-1649-4a40-a126-c507c0308b09"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("17694eb4-cbc7-4d8c-8e1a-dc8cdf2ad7b3"),
+                            ID = new Guid("946350d4-8c53-4581-bbc0-fadd2e9a4eec"),
                             RoleName = "student"
                         });
                 });

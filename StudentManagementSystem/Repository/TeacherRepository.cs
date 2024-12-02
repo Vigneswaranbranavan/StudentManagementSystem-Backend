@@ -30,17 +30,33 @@ namespace StudentManagementSystem.Repository
 
         }
 
+        //public async Task<Teacher> GetTeacherById(Guid id)
+        //{
+        //    var teacherData = await _appDbContext.Teachers.FindAsync(id);
+        //    if (teacherData == null)
+        //    {
+        //        throw new Exception("ID is Not Found");
+        //    }
+
+        //    return teacherData;
+
+        //}
+
+
         public async Task<Teacher> GetTeacherById(Guid id)
         {
-            var teacherData = await _appDbContext.Teachers.FindAsync(id);
+            var teacherData = await _appDbContext.Teachers
+                                                  .Include(t => t.Subject) // Eagerly load the related Subject
+                                                  .FirstOrDefaultAsync(t => t.ID == id); // Use FirstOrDefaultAsync to handle null results
+
             if (teacherData == null)
             {
                 throw new Exception("ID is Not Found");
             }
 
             return teacherData;
-
         }
+
 
         public async Task<Teacher> UpdateTeacher(Guid id, TeacherReqDto teacherRequest)
         {

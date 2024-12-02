@@ -13,9 +13,9 @@ namespace StudentManagementSystem.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task<Attendance> AddAttendance(Attendance attendance)
+        public async Task<ICollection<Attendance>> AddAttendance(ICollection<Attendance> attendance)
         {
-            await _appDbContext.Attendances.AddAsync(attendance);
+            await _appDbContext.Attendances.AddRangeAsync(attendance);
             await _appDbContext.SaveChangesAsync();
             return attendance;
         }
@@ -23,10 +23,12 @@ namespace StudentManagementSystem.Repository
 
         public async Task<List<Attendance>> GetAttendance()
         {
-            var attendanceData = await _appDbContext.Attendances.ToListAsync();
+            var attendanceData = await _appDbContext.Attendances
+                .Include(a => a.Student) 
+                .ToListAsync();
             return attendanceData;
-
         }
+
 
         public async Task<Attendance> GetAttendanceById(Guid id)
         {
@@ -45,15 +47,14 @@ namespace StudentManagementSystem.Repository
             var attendanceData = await _appDbContext.Attendances.FindAsync(id);
             if (attendanceData == null)
             {
-                throw new Exception("ID is Not Found");
+                throw new KeyNotFoundException($"Attendance with ID {id} not found.");
             }
 
             attendanceData.StudentID = request.StudentID;
             attendanceData.Date = request.Date;
             attendanceData.Status = request.Status;
 
-
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync(); 
             return attendanceData;
         }
 
@@ -62,11 +63,11 @@ namespace StudentManagementSystem.Repository
             var attendanceData = await _appDbContext.Attendances.FindAsync(id);
             if (attendanceData == null)
             {
-                throw new Exception("ID is Not Found");
+                throw new KeyNotFoundException($"Attendance with ID {id} not found.");
             }
 
-            _appDbContext.Remove(attendanceData);
-            _appDbContext.SaveChanges();
+            _appDbContext.Attendances.Remove(attendanceData);
+            await _appDbContext.SaveChangesAsync(); // Use SaveChangesAsync
             return attendanceData;
         }
 

@@ -5,7 +5,7 @@ namespace StudentManagementSystem.IServices
 {
     public interface IAttendanceService
     {
-        Task<AttendanceResponse> AddAttendance(AttendanceRequest request);
+        Task<ICollection<AttendanceResponse>> AddAttendance(ICollection<AttendanceRequest> request);
         Task<List<AttendanceResponse>> GetAttendance();
         Task<AttendanceResponse> GetAttendanceById(Guid id);
         Task<AttendanceResponse> UpdateAttendance(Guid id, AttendanceRequest request);
