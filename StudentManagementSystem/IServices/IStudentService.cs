@@ -9,11 +9,13 @@ namespace StudentManagementSystem.IServices
         Task<IEnumerable<StudentResponce>> GetAllStudentsAsync();
         Task<StudentResponce> GetStudentByIdAsync(Guid id);
         Task<StudentResponce> AddStudentAsync(StudentRequest studentRequest);
-        Task<List<Student>> GetStudentsByClassIdAsync(Guid classId);
+        //Task<List<Student>> GetStudentsByClassIdAsync(Guid classId);
         //Task UpdateStudentAsync(Guid id, StudentRequest studentRequest);
+        Task<IEnumerable<StudentResponce>> GetStudentsByClassIdAsync(Guid classId);
         Task<StudentResponce> UpdateStudentAsync(Guid id, StudentReqDto request);
         Task DeleteStudentAsync(Guid id);
         //Task<UserResponse> AssignRoleToUserAsync(UserRequest userRequest, string roleName);
+        Task<StudentResponce> GetStudentByUserIdAsync(Guid userId);
 
     }
 }
