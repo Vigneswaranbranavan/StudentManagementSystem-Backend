@@ -211,5 +211,30 @@ namespace StudentManagementSystem.Controllers
 
         }
 
+
+        [HttpGet("ByDate")]
+        public async Task<IActionResult> GetTimetablesByDate(DateTime date)
+        {
+            try
+            {
+                var data = await _timetableService.GetTimetablesByDate(date);
+                return Ok(data);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { Message = ex.Message });
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(500, new { Message = $"Database error: {ex.Message}" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+
+
     }
 }

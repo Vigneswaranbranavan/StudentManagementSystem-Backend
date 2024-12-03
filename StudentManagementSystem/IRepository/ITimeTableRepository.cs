@@ -13,6 +13,7 @@ namespace StudentManagementSystem.IRepository
         Task<List<Timetable>> GetTimetablesByTeacherId(Guid teacherId);
         Task<List<Timetable>> GetTimetablesByClassId(Guid classId);
         Task<List<Timetable>> GetTimetablesBySubjectId(Guid subjectId);
+        Task<List<Timetable>> GetTimetablesByDate(DateTime date);
 
     }
 }
