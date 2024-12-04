@@ -27,7 +27,7 @@ namespace StudentManagementSystem.Repository
         {
             return await _appDbContext.Students
                 .Where(s => s.ClassID == classId)
-                .ToListAsync();
+                .Include(i => i.Class).Include(i => i.User).ToListAsync();
         }
 
 
@@ -84,6 +84,14 @@ namespace StudentManagementSystem.Repository
                 .FirstOrDefaultAsync(s => s.UserID == userId);  // Query by UserID
         }
 
+
+        public async Task<Student> GetStudentByUserIdAsync(Guid userId)
+        {
+            return await _appDbContext.Students
+                .Include(s => s.Class)   // Include the Class entity
+                .Include(s => s.User)    // Include the User entity
+                .FirstOrDefaultAsync(s => s.UserID == userId);  // Query by UserID
+        }
 
     }
 }

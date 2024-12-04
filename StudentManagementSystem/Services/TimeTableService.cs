@@ -224,5 +224,39 @@ namespace StudentManagementSystem.Services
             return timetableList;
 
         }
+
+
+        public async Task<List<TimeTableResponse>> GetTimetablesByDate(DateTime date)
+        {
+            if (date == default)
+                throw new ArgumentException("Invalid date specified.");
+
+            var timetableData = await _timetableRepository.GetTimetablesByDate(date);
+
+            if (!timetableData.Any())
+                throw new KeyNotFoundException("No timetables found for the specified date.");
+
+            return timetableData.Select(item => new TimeTableResponse
+            {
+                ID = item.ID,
+                TeacherID = item.TeacherID,
+                ClassID = item.ClassID,
+                Date = item.Date,
+                StartTime = item.StartTime,
+                EndTime = item.EndTime,
+                Class = new ClassResponse
+                {
+                    ID = item.Class.ID,
+                    ClassName = item.Class.ClassName
+                },
+                TeacherSubject = new TeacherResponse
+                {
+                    ID = item.Teacher.Subject.ID,
+                    Name = item.Teacher.Subject.SubjectName
+                }
+            }).ToList();
+        }
+
+
     }
 }
