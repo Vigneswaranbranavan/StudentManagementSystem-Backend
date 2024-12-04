@@ -145,28 +145,46 @@ namespace StudentManagementSystem.Controllers
 
 
 
-        [HttpGet("Get Feedback By UserId")]
+        [HttpGet("GetFeedbackByUserId/{UserId}")]
         public async Task<IActionResult> GetFeedbackByUserId(Guid UserId)
         {
             try
             {
+                // Validate the UserId before querying the database
+                if (UserId == Guid.Empty)
+                {
+                    return BadRequest("Invalid UserId.");
+                }
+
+                // Fetch feedback data using the service
                 var data = await _feedbackService.GetFeedbackByUserId(UserId);
+
+                // Check if no feedback is found for the given UserId
+                if (data == null || !data.Any())
+                {
+                    return NotFound("No feedback found for the provided UserId.");
+                }
+
+                // Return the feedback data as a successful response
                 return Ok(data);
             }
             catch (SqlException ex)
             {
-                return BadRequest(ex.Message);
+                // Catch SQL-specific exceptions and return a BadRequest with the message
+                return BadRequest($"Database error: {ex.Message}");
             }
             catch (ArgumentNullException ex)
             {
-                return NotFound(ex.Message);
+                // Catch ArgumentNullException and return a NotFound response
+                return NotFound($"Argument error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                // Catch any other exceptions and return a BadRequest
+                return BadRequest($"An error occurred: {ex.Message}");
             }
-
         }
+
     }
 
 

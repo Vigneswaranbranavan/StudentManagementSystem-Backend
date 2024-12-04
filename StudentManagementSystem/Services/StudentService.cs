@@ -4,6 +4,7 @@ using StudentManagementSystem.IServices;
 using StudentManagementSystem.DTO.Response;
 using StudentManagementSystem.DTO.Request;
 using StudentManagementSystem.Repository;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace StudentManagementSystem.Services
@@ -15,7 +16,7 @@ namespace StudentManagementSystem.Services
         private readonly IUserRepository _userRepository;
         private readonly ITokenRepository _tokenRepository;
 
-        public StudentService(AppDbContext appDbContext, IStudentRepository studentRepository, IUserRepository userRepository,ITokenRepository tokenRepository)
+        public StudentService(AppDbContext appDbContext, IStudentRepository studentRepository, IUserRepository userRepository, ITokenRepository tokenRepository)
         {
             _appDbContext = appDbContext;
             _studentRepository = studentRepository;
@@ -65,7 +66,7 @@ namespace StudentManagementSystem.Services
                 Phone = student.Phone,
                 EnrollmentDate = student.EnrollmentDate,
                 ClassID = student.ClassID,
-                
+
             };
         }
 
@@ -202,10 +203,39 @@ namespace StudentManagementSystem.Services
 
 
 
-        public async Task<List<Student>> GetStudentsByClassIdAsync(Guid classId)
+        //public async Task<List<Student>> GetStudentsByClassIdAsync(Guid classId)
+        //{
+        //    return await _studentRepository.GetStudentsByClassIdAsync(classId);
+        //}
+
+
+
+        public async Task<IEnumerable<StudentResponce>> GetStudentsByClassIdAsync(Guid classId)
         {
-            return await _studentRepository.GetStudentsByClassIdAsync(classId);
+            var students = await _studentRepository.GetStudentsByClassIdAsync(classId);
+            return students.Select(student => new StudentResponce
+            {
+                ID = student.ID,
+                Name = student.Name,
+                Phone = student.Phone,
+                EnrollmentDate = student.EnrollmentDate,
+                ClassID = student.ClassID,
+                Class = new ClassResponse
+                {
+                    ID = student.Class.ID,
+                    ClassName = student.Class.ClassName
+                },
+                UserRes = new UserResponse
+                {
+                    ID = student.User.ID,
+                    Email = student.User.Email
+                }
+
+
+
+            });
         }
+
 
         public async Task DeleteStudentAsync(Guid id)
         {
@@ -216,6 +246,68 @@ namespace StudentManagementSystem.Services
             await _studentRepository.DeleteStudentAsync(id);
         }
 
+        public async Task<StudentResponce> GetStudentByUserIdAsync(Guid userId)
+        {
+            var student = await _studentRepository.GetStudentByUserIdAsync(userId);
 
+            if (student == null)
+            {
+                throw new KeyNotFoundException("Student not found for the provided UserID.");
+            }
+
+            // Map StudentResponce with Class details
+            return new StudentResponce
+            {
+                ID = student.ID,
+                Name = student.Name,
+                Phone = student.Phone,
+                EnrollmentDate = student.EnrollmentDate,
+                ClassID = student.ClassID,
+                Class = new ClassResponse
+                {
+                    ID = student.Class.ID,
+                    ClassName = student.Class.ClassName  // Include Class details here
+                },
+                UserRes = new UserResponse
+                {
+                    ID = student.User.ID,
+                    Email = student.User.Email
+                }
+            };
+
+        }
+
+
+
+        public async Task<StudentResponce> GetStudentByUserIdAsync(Guid userId)
+        {
+            var student = await _studentRepository.GetStudentByUserIdAsync(userId);
+
+            if (student == null)
+            {
+                throw new KeyNotFoundException("Student not found for the provided UserID.");
+            }
+
+            // Map StudentResponce with Class details
+            return new StudentResponce
+            {
+                ID = student.ID,
+                Name = student.Name,
+                Phone = student.Phone,
+                EnrollmentDate = student.EnrollmentDate,
+                ClassID = student.ClassID,
+                Class = new ClassResponse
+                {
+                    ID = student.Class.ID,
+                    ClassName = student.Class.ClassName  // Include Class details here
+                },
+                UserRes = new UserResponse
+                {
+                    ID = student.User.ID,
+                    Email = student.User.Email
+                }
+            };
+
+        }
     }
 }

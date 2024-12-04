@@ -10,5 +10,6 @@ namespace StudentManagementSystem.IServices
         Task<StaffResponse> GetStaffById(Guid id);
         Task<StaffResponse> UpdateStaff(Guid id, StaffReqDto request);
         Task<StaffResponse> DeleteStaff(Guid id);
+        Task<StaffResponse> GetStaffByUserIdAsync(Guid userId);
     }
 }

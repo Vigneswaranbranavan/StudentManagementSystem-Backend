@@ -193,5 +193,29 @@ namespace StudentManagementSystem.Services
 
             return StaffResponse;
         }
+
+        public async Task<StaffResponse> GetStaffByUserIdAsync(Guid userId)
+        {
+            var Staff = await _staffRepository.GetStaffByUserIdAsync(userId);
+
+            if (Staff == null)
+            {
+                throw new KeyNotFoundException("Staff not found for the provided UserID.");
+            }
+
+            // Map StudentResponce with Class details
+            return new StaffResponse
+            {
+                Id = Staff.Id,
+                Name = Staff.Name,
+                Phone = Staff.Phone,
+                UserRes = new UserResponse
+                {
+                    ID = Staff.User.ID,
+                    Email = Staff.User.Email
+                }
+            };
+
+        }
     }
 }

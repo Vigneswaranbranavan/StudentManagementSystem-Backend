@@ -13,5 +13,6 @@ namespace StudentManagementSystem.IServices
         Task<List<TimeTableResponse>> GetTimetablesByTeacherId(Guid teacherId);
         Task<List<TimeTableResponse>> GetTimetablesByClassId(Guid classId);
         Task<List<TimeTableResponse>> GetTimetablesBySubjectId(Guid subjectId);
+        Task<List<TimeTableResponse>> GetTimetablesByDate(DateTime date);
     }
 }

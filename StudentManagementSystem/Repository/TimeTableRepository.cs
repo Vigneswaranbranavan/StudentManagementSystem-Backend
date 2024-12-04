@@ -109,5 +109,18 @@ namespace StudentManagementSystem.Repository
             }
             return timetableData;
         }
+
+
+        public async Task<List<Timetable>> GetTimetablesByDate(DateTime date)
+        {
+            return await _appDbContext.Timetables
+                .Where(tt => tt.Date.Date == date.Date)
+                .Include(tt => tt.Class)
+                .Include(tt => tt.Teacher)
+                .ThenInclude(t => t.Subject)
+                .ToListAsync();
+        }
+
+
     }
 }
