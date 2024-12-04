@@ -73,5 +73,13 @@ namespace StudentManagementSystem.Repository
             return await _appDbContext.Roles
                 .FirstOrDefaultAsync(r => r.RoleName.ToLower() == roleName.ToLower());
         }
+
+        public async Task<Staff> GetStaffByUserIdAsync(Guid userId)
+        {
+            return await _appDbContext.Staff
+                .Include(s => s.User)    // Include the User entity
+                .FirstOrDefaultAsync(s => s.UserID == userId);  // Query by UserID
+        }
+
     }
 }

@@ -14,6 +14,6 @@ namespace StudentManagementSystem.IServices
         Task<StudentResponce> UpdateStudentAsync(Guid id, StudentReqDto request);
         Task DeleteStudentAsync(Guid id);
         //Task<UserResponse> AssignRoleToUserAsync(UserRequest userRequest, string roleName);
-
+        Task<StudentResponce> GetStudentByUserIdAsync(Guid userId);
     }
 }
