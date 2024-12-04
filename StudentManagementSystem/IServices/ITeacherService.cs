@@ -12,5 +12,6 @@ namespace StudentManagementSystem.IServices
         Task<List<TimeTableResponse>> GetTimetableByTeacherId(Guid id);
         Task<TeacherResponse> GetTeacherBySubjectId(Guid subjectId);
         Task<TeacherResponse> DeleteTeacher(Guid id);
+        Task<TeacherResponse> GetTeacherByUserIdAsync(Guid userId);
     }
 }

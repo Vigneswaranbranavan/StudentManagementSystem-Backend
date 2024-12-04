@@ -115,5 +115,14 @@ namespace StudentManagementSystem.Repository
             return await _appDbContext.Roles
                 .FirstOrDefaultAsync(r => r.RoleName.ToLower() == roleName.ToLower());
         }
+
+
+        public async Task<Teacher> GetTeacherByUserIdAsync(Guid userId)
+        {
+            return await _appDbContext.Teachers
+                .Include(s => s.Subject)   // Include the Class entity
+                .Include(s => s.User)    // Include the User entity
+                .FirstOrDefaultAsync(s => s.UserID == userId);  // Query by UserID
+        }
     }
 }

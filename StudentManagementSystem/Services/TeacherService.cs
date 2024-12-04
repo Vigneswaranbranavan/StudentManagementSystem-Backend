@@ -248,6 +248,36 @@ namespace StudentManagementSystem.Services
 
             return teacherResponse;
         }
+
+        public async Task<TeacherResponse> GetTeacherByUserIdAsync(Guid userId)
+        {
+            var Teacher = await _teacherRepository.GetTeacherByUserIdAsync(userId);
+
+            if (Teacher == null)
+            {
+                throw new KeyNotFoundException("teacher not found for the provided UserID.");
+            }
+
+            // Map StudentResponce with Class details
+            return new TeacherResponse
+            {
+                ID = Teacher.ID,
+                Name = Teacher.Name,
+                Phone = Teacher.Phone,
+               SubjectID = Teacher.SubjectID,
+                Subject = new SubjectResponse
+                {
+                    ID = Teacher.Subject.ID,
+                    SubjectName = Teacher.Subject.SubjectName  // Include Class details here
+                },
+                UserRes = new UserResponse
+                {
+                    ID = Teacher.User.ID,
+                    Email = Teacher.User.Email
+                }
+            };
+
+        }
     }
 }
 

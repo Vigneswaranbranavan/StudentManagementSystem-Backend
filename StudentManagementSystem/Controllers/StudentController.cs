@@ -87,5 +87,6 @@ namespace StudentManagementSystem.Controllers
                 return NotFound(new { message = "Student not found for the provided UserID." });
             }
         }
+
     }
 }
