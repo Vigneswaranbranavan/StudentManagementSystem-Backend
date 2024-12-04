@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem;
 
@@ -11,9 +12,11 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241204094651_initiallss")]
+    partial class initiallss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,22 +155,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("1ff22749-771e-4d22-8b5b-ea65a0ac07f4"),
+                            ID = new Guid("b1a783a8-cafe-4195-a131-d51655fb2157"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("c6a0f2c2-1b99-4ad9-9b5a-b4af5c017f46"),
+                            ID = new Guid("f56eafdb-8a81-43b3-a530-fa40abc532dd"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("a9237276-b6fc-4dc9-bfdd-524c0a09fa63"),
+                            ID = new Guid("f438115a-0345-4cbb-a756-dbf6da347e15"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("d2d76e11-dbb3-4210-b1dd-db5c11579fb0"),
+                            ID = new Guid("7c19b075-df7f-4dfb-a507-f260e77f9fe3"),
                             RoleName = "student"
                         });
                 });
@@ -208,7 +211,7 @@ namespace StudentManagementSystem.Migrations
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IndexNumber")
+                    b.Property<string>("IntexNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

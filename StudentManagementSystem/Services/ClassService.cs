@@ -111,15 +111,15 @@ namespace StudentManagementSystem.Services
                     ID = item.ID,
                     Name = item.Name,
                     Phone = item.Phone,
+                    gender = item.gender,
+                    IndexNumber = item.IndexNumber,
                     EnrollmentDate = item.EnrollmentDate,
                     ClassID = item.ClassID,
                 };
 
                 studentsResList.Add(student);
-
             }
             return studentsResList;
-
         }
 
         public async Task<List<TimeTableResponse>> GetTimetablesByClassId(Guid classId)
