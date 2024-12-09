@@ -40,8 +40,7 @@ namespace StudentManagementSystem
             builder.Services.AddScoped<SendMailRepository>();
             builder.Services.AddScoped<EmailServiceProvider>();
 
-            // Ensure EmailConfig is available as a singleton if needed
-            builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailConfig>>().Value);
+        
 
 
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -119,6 +118,9 @@ namespace StudentManagementSystem
                   });
             });
 
+
+            // Ensure EmailConfig is available as a singleton if needed
+            builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailConfig>>().Value);
             var app = builder.Build();
 
 
