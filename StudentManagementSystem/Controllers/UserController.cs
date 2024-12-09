@@ -43,7 +43,7 @@ namespace StudentManagementSystem.Controllers
         //[HttpPut("{id}")]
         //public async Task<ActionResult> UpdateUser(Guid id, UserRequest userRequest)
         //{
-           
+
         //    await _userService.UpdateUserAsync(id,userRequest);
         //    return NoContent();
         //}
@@ -54,6 +54,14 @@ namespace StudentManagementSystem.Controllers
         //    await _userService.DeleteUserAsync(id);
         //    return NoContent();
         //}
+
+        [HttpPost("SentOTP")]
+        public async Task<IActionResult> SentOTP(string email)
+        {
+            var data = await _userService.SentOTP(email);
+            var json = new { message = "OTP sented da suuu" };
+            return Ok(json);
+        }
     }
 }
 

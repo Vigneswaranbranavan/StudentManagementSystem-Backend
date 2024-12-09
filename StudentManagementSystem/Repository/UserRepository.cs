@@ -33,6 +33,19 @@ namespace StudentManagementSystem.Repository
         }
 
 
+        public async Task<User> GetUserByEmailForgotPassword(string email)
+        {
+            var data = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (data == null) throw new Exception("User Not found");
+            return data;
+        }
+
+        public async Task<OTP> SaveOTP (OTP oTP)
+        {
+            await _context.OTPs.AddAsync(oTP);
+            await _context.SaveChangesAsync();
+            return oTP;
+        }
     }
 }
 

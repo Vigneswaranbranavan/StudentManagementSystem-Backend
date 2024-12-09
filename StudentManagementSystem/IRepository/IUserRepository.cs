@@ -9,7 +9,8 @@ namespace StudentManagementSystem.IRepository
         //Task AddUserRoleAsync(UserRole userRole);
         //Task<User> AddUserAsync(User user);
         Task<User> GetUserByEmailAsync(string email);
-
+        Task<User> GetUserByEmailForgotPassword(string email);
+        Task<OTP> SaveOTP(OTP oTP);
 
 
     }

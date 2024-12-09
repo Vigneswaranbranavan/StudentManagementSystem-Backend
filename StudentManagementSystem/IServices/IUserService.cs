@@ -12,6 +12,7 @@ namespace StudentManagementSystem.IServices
 
         //Task<UserResponse> AddUserAsync(UserRequest userRequest, string roleName);
         Task<(string Token, User user)> Authenticate(string email, string password);
+        Task<bool> SentOTP(string email);
 
         //Task<User> GetUserByEmailAsync(string email);
 

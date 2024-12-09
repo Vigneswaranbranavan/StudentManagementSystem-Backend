@@ -47,5 +47,4 @@ namespace StudentManagementSystem.Services
             return emailbody;
         }
     }
-    
 }
