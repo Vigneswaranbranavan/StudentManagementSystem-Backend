@@ -1,4 +1,5 @@
 ﻿using MimeKit.Cryptography;
+using StudentManagementSystem.DTO;
 using StudentManagementSystem.DTO.Request;
 using StudentManagementSystem.DTO.Response;
 using StudentManagementSystem.Entities;
@@ -66,6 +67,22 @@ namespace StudentManagementSystem.Services
             await _userRepository.SaveOTP(OTP);
             await _sendMailService.SendMail(mail);
             return true;
+        }
+
+        public async Task <bool> CheckOTP (string otp)
+        {
+            var exits = await  _userRepository.CheckOTPExits(otp);
+            if (exits == null) throw new Exception("OTP not found");
+            var today = DateTime.UtcNow;
+            if (exits.EndTime < today) throw new Exception("OTP time out");
+            return true;
+          
+        }
+
+        public async Task<bool> ChangePassword (ChangePasswordDTO dTO)
+        {
+            var data = await _userRepository.ChangePassword(dTO);
+            return data != null?true:false;
         }
     }
 }

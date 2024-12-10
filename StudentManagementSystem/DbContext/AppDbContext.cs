@@ -30,12 +30,12 @@ namespace StudentManagementSystem
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<Role>().HasData(
-            //    new Role { ID = Guid.NewGuid(), RoleName = "administrator"},
-            //    new Role { ID = Guid.NewGuid(), RoleName = "staff" },
-            //    new Role { ID = Guid.NewGuid(), RoleName = "teacher"},
-            //    new Role { ID = Guid.NewGuid(), RoleName = "student"}
-            //    );
+            modelBuilder.Entity<Role>().HasData(
+                new Role { ID = Guid.NewGuid(), RoleName = "administrator" },
+                new Role { ID = Guid.NewGuid(), RoleName = "staff" },
+                new Role { ID = Guid.NewGuid(), RoleName = "teacher" },
+                new Role { ID = Guid.NewGuid(), RoleName = "student" }
+                );
 
             //modelBuilder.Entity<UserRole>()
             //    .HasKey(ur => new { ur.UserID, ur.RoleID });

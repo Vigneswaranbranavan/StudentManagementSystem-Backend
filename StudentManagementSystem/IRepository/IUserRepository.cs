@@ -1,4 +1,5 @@
-﻿using StudentManagementSystem.Entities;
+﻿using StudentManagementSystem.DTO;
+using StudentManagementSystem.Entities;
 
 namespace StudentManagementSystem.IRepository
 {
@@ -11,6 +12,8 @@ namespace StudentManagementSystem.IRepository
         Task<User> GetUserByEmailAsync(string email);
         Task<User> GetUserByEmailForgotPassword(string email);
         Task<OTP> SaveOTP(OTP oTP);
+        Task<OTP> CheckOTPExits(string otp);
+        Task<User> ChangePassword(ChangePasswordDTO dTO);
 
 
     }
