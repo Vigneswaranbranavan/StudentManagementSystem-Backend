@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem;
 
@@ -11,9 +12,11 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241210064519_initials3")]
+    partial class initials3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,28 +183,6 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("f10cac5c-7d6d-40fd-adbd-27a613210034"),
-                            RoleName = "administrator"
-                        },
-                        new
-                        {
-                            ID = new Guid("22766b52-d007-4240-95b5-b7dfbbfaef79"),
-                            RoleName = "staff"
-                        },
-                        new
-                        {
-                            ID = new Guid("47f7fae0-6c78-453c-b8de-ff00255cda83"),
-                            RoleName = "teacher"
-                        },
-                        new
-                        {
-                            ID = new Guid("f88c5d49-fc29-45b1-915f-2b070c9a3ec2"),
-                            RoleName = "student"
-                        });
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Staff", b =>

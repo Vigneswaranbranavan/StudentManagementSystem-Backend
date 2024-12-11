@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Entities;
+using StudentManagementSystem.Entities.E_mail;
 namespace StudentManagementSystem
 {
     public class AppDbContext : DbContext
@@ -22,16 +23,18 @@ namespace StudentManagementSystem
         public DbSet<OTP> OTPs { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Role>().HasData(
-                new Role { ID = Guid.NewGuid(), RoleName = "administrator"},
+                new Role { ID = Guid.NewGuid(), RoleName = "administrator" },
                 new Role { ID = Guid.NewGuid(), RoleName = "staff" },
-                new Role { ID = Guid.NewGuid(), RoleName = "teacher"},
-                new Role { ID = Guid.NewGuid(), RoleName = "student"}
+                new Role { ID = Guid.NewGuid(), RoleName = "teacher" },
+                new Role { ID = Guid.NewGuid(), RoleName = "student" }
                 );
 
             //modelBuilder.Entity<UserRole>()

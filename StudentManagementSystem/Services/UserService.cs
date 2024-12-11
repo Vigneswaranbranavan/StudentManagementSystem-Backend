@@ -1,6 +1,9 @@
-﻿using StudentManagementSystem.DTO.Request;
+﻿using MimeKit.Cryptography;
+using StudentManagementSystem.DTO;
+using StudentManagementSystem.DTO.Request;
 using StudentManagementSystem.DTO.Response;
 using StudentManagementSystem.Entities;
+using StudentManagementSystem.Entities.E_mail;
 using StudentManagementSystem.IRepository;
 using StudentManagementSystem.IServices;
 using System.Net.NetworkInformation;
@@ -11,13 +14,14 @@ namespace StudentManagementSystem.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ITokenRepository _tokenRepository;
+        private readonly SendMailService _sendMailService;
 
-        public UserService(IUserRepository userRepository, ITokenRepository tokenRepository)
+        public UserService(IUserRepository userRepository, ITokenRepository tokenRepository, SendMailService sendMailService)
         {
             _userRepository = userRepository;
             _tokenRepository = tokenRepository;
+            _sendMailService = sendMailService;
         }
-
 
         public async Task<(string Token, User user)> Authenticate(string email, string password)
         {
@@ -34,6 +38,51 @@ namespace StudentManagementSystem.Services
             return (token, user);
         }
 
+        public async Task <bool> SentOTP (string email)
+        {
+            var checkUserExits = await _userRepository.GetUserByEmailForgotPassword(email);
+            if (checkUserExits == null) throw new Exception("User Not Found");
 
+            var random = new Random();
+            var otp = random.Next(100000, 999999).ToString();        
+            var today = DateTime.UtcNow;
+            var expirationTime = DateTime.UtcNow.AddMinutes(7);
+
+            var OTP = new OTP
+            {
+                UserID = checkUserExits.ID,
+                Email = checkUserExits.Email,
+                Code = otp,
+                StartTime = today,
+                EndTime =expirationTime,
+            };
+
+            var mail = new SendMailRequest
+            {
+                OTP = otp,
+                Email = checkUserExits.Email,
+                EmailType = EmailType.OTP,
+            };
+            
+            await _userRepository.SaveOTP(OTP);
+            await _sendMailService.SendMail(mail);
+            return true;
+        }
+
+        public async Task <bool> CheckOTP (string otp)
+        {
+            var exits = await  _userRepository.CheckOTPExits(otp);
+            if (exits == null) throw new Exception("OTP not found");
+            var today = DateTime.UtcNow;
+            if (exits.EndTime < today) throw new Exception("OTP time out");
+            return true;
+          
+        }
+
+        public async Task<bool> ChangePassword (ChangePasswordDTO dTO)
+        {
+            var data = await _userRepository.ChangePassword(dTO);
+            return data != null?true:false;
+        }
     }
 }

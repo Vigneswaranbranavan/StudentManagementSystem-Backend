@@ -1,7 +1,9 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using StudentManagementSystem.Entities.E_mail;
 using StudentManagementSystem.IRepository;
 using StudentManagementSystem.IServices;
 using StudentManagementSystem.Repository;
@@ -30,6 +32,15 @@ namespace StudentManagementSystem
             builder.Services.AddDbContext<AppDbContext>(opt =>
                  opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Register EmailConfig
+            builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailConfig"));
+
+            // Register Email services
+            builder.Services.AddScoped<SendMailService>();
+            builder.Services.AddScoped<SendMailRepository>();
+            builder.Services.AddScoped<EmailServiceProvider>();
+
+        
 
 
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -107,6 +118,9 @@ namespace StudentManagementSystem
                   });
             });
 
+
+            // Ensure EmailConfig is available as a singleton if needed
+            builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailConfig>>().Value);
             var app = builder.Build();
 
 
