@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem;
 
@@ -11,9 +12,11 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208075940_initial3")]
+    partial class initial3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,16 +150,6 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
@@ -184,22 +177,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("f10cac5c-7d6d-40fd-adbd-27a613210034"),
+                            ID = new Guid("02cfd913-81a4-4afd-858e-6a9b0e0dcea3"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("22766b52-d007-4240-95b5-b7dfbbfaef79"),
+                            ID = new Guid("19f33e65-dea6-4b0c-9b50-b6e1c4e1d945"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("47f7fae0-6c78-453c-b8de-ff00255cda83"),
+                            ID = new Guid("10bb8afe-ee25-46f5-8aca-b25c43590b99"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("f88c5d49-fc29-45b1-915f-2b070c9a3ec2"),
+                            ID = new Guid("968749e2-051e-4e31-8c02-5c3e959574d3"),
                             RoleName = "student"
                         });
                 });

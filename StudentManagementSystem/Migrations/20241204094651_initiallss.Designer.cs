@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem;
 
@@ -11,9 +12,11 @@ using StudentManagementSystem;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241204094651_initiallss")]
+    partial class initiallss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,28 +65,6 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Classes");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.Entities.E_mail.EmailTemplate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EmailType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmailTemplates");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Entities.Feedback", b =>
@@ -147,16 +128,6 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
@@ -184,22 +155,22 @@ namespace StudentManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("f10cac5c-7d6d-40fd-adbd-27a613210034"),
+                            ID = new Guid("b1a783a8-cafe-4195-a131-d51655fb2157"),
                             RoleName = "administrator"
                         },
                         new
                         {
-                            ID = new Guid("22766b52-d007-4240-95b5-b7dfbbfaef79"),
+                            ID = new Guid("f56eafdb-8a81-43b3-a530-fa40abc532dd"),
                             RoleName = "staff"
                         },
                         new
                         {
-                            ID = new Guid("47f7fae0-6c78-453c-b8de-ff00255cda83"),
+                            ID = new Guid("f438115a-0345-4cbb-a756-dbf6da347e15"),
                             RoleName = "teacher"
                         },
                         new
                         {
-                            ID = new Guid("f88c5d49-fc29-45b1-915f-2b070c9a3ec2"),
+                            ID = new Guid("7c19b075-df7f-4dfb-a507-f260e77f9fe3"),
                             RoleName = "student"
                         });
                 });
@@ -240,7 +211,7 @@ namespace StudentManagementSystem.Migrations
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IndexNumber")
+                    b.Property<string>("IntexNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

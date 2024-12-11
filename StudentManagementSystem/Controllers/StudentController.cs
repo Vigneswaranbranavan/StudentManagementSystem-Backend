@@ -40,17 +40,6 @@ namespace StudentManagementSystem.Controllers
             var students = await _studentService.GetStudentsByClassIdAsync(classId);
             return Ok(students);
         }
-        //public async Task<IActionResult> GetStudentsByClassId(Guid classId)
-        //{
-        //    var students = await _studentService.GetStudentsByClassIdAsync(classId);
-
-        //    if (students == null || students.Count == 0)
-        //    {
-        //        return NotFound(new { message = "No students found for the specified class." });
-        //    }
-
-        //    return Ok(students);
-        //}
 
         [HttpPost]
         public async Task<ActionResult> AddStudent(StudentRequest studentRequest)
