@@ -46,17 +46,17 @@ namespace StudentManagementSystem.Repository
         public async Task<Teacher> GetTeacherById(Guid id)
         {
             var teacherData = await _appDbContext.Teachers
-                                                  .Include(t => t.Subject) // Eagerly load the related Subject
-                                                  .FirstOrDefaultAsync(t => t.ID == id); // Use FirstOrDefaultAsync to handle null results
+                                                  .Include(t => t.Subject)
+                                                  .Include(t => t.User)
+                                                  .FirstOrDefaultAsync(t => t.ID == id);
 
             if (teacherData == null)
             {
-                throw new Exception("ID is Not Found");
+                throw new Exception("Teacher not found with the provided ID.");
             }
 
             return teacherData;
         }
-
 
         public async Task<Teacher> UpdateTeacher(Guid id, TeacherReqDto teacherRequest)
         {

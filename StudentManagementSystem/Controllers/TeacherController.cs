@@ -24,7 +24,7 @@ namespace StudentManagementSystem.Controllers
             try
             {
                 var createTeacher = await _teacherService.AddTeacherAsync(teacherRequest);
-                return CreatedAtAction(nameof(GetTeacherById), new { id = createTeacher.ID }, createTeacher);
+                return CreatedAtAction(nameof(GetTeacherByTeacherId), new { id = createTeacher.ID }, createTeacher);
             }
             catch (SqlException ex)
             {
@@ -65,28 +65,28 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        [HttpGet("TeacherById")]
-        public async Task<IActionResult> GetTeacherById(Guid id)
+        [HttpGet("TeacherByTeacherId")]
+        public async Task<IActionResult> GetTeacherByTeacherId(Guid teacherId)
         {
             try
             {
-                var data = await _teacherService.GetTeacherById(id);
+                var data = await _teacherService.GetTeacherByTeacherId(teacherId);
                 return Ok(data);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
             catch (SqlException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (ArgumentNullException ex)
-            {
-                return NotFound(ex.Message);
-            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
+
 
         [HttpPut("Teacher")]
         public async Task<IActionResult> UpdateTeacher(Guid Id, TeacherReqDto request)

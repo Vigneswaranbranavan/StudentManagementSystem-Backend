@@ -160,22 +160,33 @@ namespace StudentManagementSystem.Services
         }
 
 
-        public async Task<TeacherResponse> GetTeacherById(Guid id)
+        public async Task<TeacherResponse> GetTeacherByTeacherId(Guid teacherId)
         {
-            var teacherData = await _teacherRepository.GetTeacherById(id);
+            var teacherData = await _teacherRepository.GetTeacherById(teacherId);
 
-            var teacherResponse = new TeacherResponse();
-            teacherResponse.ID = teacherData.ID;
-            teacherResponse.Name = teacherData.Name;
-            teacherResponse.Phone = teacherData.Phone;
-            teacherResponse.SubjectID = teacherData.SubjectID;
-            teacherResponse.Subject = new SubjectResponse
+            if (teacherData == null)
             {
-                ID = teacherData.Subject.ID,
-                SubjectName = teacherData.Subject.SubjectName
-            };
+                throw new KeyNotFoundException("Teacher not found for the provided TeacherID.");
+            }
 
-            return teacherResponse;
+            // Return TeacherResponse with associated Subject and User details
+            return new TeacherResponse
+            {
+                ID = teacherData.ID,
+                Name = teacherData.Name,
+                Phone = teacherData.Phone,
+                SubjectID = teacherData.SubjectID,
+                Subject = new SubjectResponse
+                {
+                    ID = teacherData.Subject.ID,
+                    SubjectName = teacherData.Subject.SubjectName
+                },
+                UserRes = new UserResponse
+                {
+                    ID = teacherData.User.ID,
+                    Email = teacherData.User.Email
+                }
+            };
         }
 
 
