@@ -109,8 +109,9 @@ namespace StudentManagementSystem.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("Notification")]
+        [HttpDelete("Notification/{id}")]
         public async Task<IActionResult> DeleteNotification(Guid id)
+
         {
             try
             {
